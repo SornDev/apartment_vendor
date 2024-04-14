@@ -1,0 +1,1 @@
+import{_ as t,c as e,o as n,a as o}from"./app-tVS7sfzb.js";const s={name:"DmsSetting",data(){return{}},mounted(){},methods:{}},a=o("h1",null,"Setting",-1),c=[a];function r(_,d,i,l,m,p){return n(),e("div",null,c)}const f=t(s,[["render",r]]);export{f as default};

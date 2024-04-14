@@ -1,0 +1,25 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "axios": "^1.6.1",
+        "laravel-vite-plugin": "^1.0.0",
+        "vite": "^5.0.0"
+    },
+    "dependencies": {
+        "@vitejs/plugin-vue": "^5.0.2",
+        "moment": "^2.30.1",
+        "pinia": "^2.1.7",
+        "vue": "^3.4.5",
+        "vue-cleave-component": "^3.0.2",
+        "vue-flatpickr-component": "^11.0.5",
+        "vue-loader": "^17.4.2",
+        "vue-router": "^4.2.5",
+        "vue-sweetalert2": "^5.0.5",
+        "vue3-perfect-scrollbar": "^1.6.1"
+    }
+}

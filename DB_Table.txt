@@ -1,0 +1,121 @@
+All Tables
+
+1. Table: DocumentCategory
+    Fill            Fill Type 
+    - name          string 
+
+2. Table: Document
+    Fill            Fill Type 
+    - cat_id        string
+    - doc_name      string  ຊື່ເອກະສານ
+    - image         string  ຮູບ
+    - doc_example   string  ເອກະສານຕົວຢ່າງ pdf, word
+    - doc_form      string  ຟອມເອກະສານ pdf, word
+    - notice        string  ໝາຍເຫດ
+
+3. Table: DocWork 
+    Fill            Fill Type 
+    - doc_cat       string 
+    - customer_id   string 
+    - status        string  ສະຖານະ (ກຳລັງດຳເນີນການ, ສຳເລັດ, ຍົກເລີກ)
+
+4. Table: DocWorkList
+    Fill            Fill Type 
+    - doc_work_id    string 
+    - doc_id        string
+    - doc_copy      string  ຕົ້ນສະບັບ ກ໊ອບປີ້
+    - notice        string  ໝາຍເຫດ
+    - status        string  ສະຖານະ (ກຳລັງດຳເນີນການ, ສຳເລັດ, ຍົກເລີກ)
+
+5. Table: Receipt
+    Fill            Fill Type 
+    - rec_id        string
+    - doc_work_id    string
+    - customer_id   string
+    - status        string
+
+6. Table: ReceiptList
+    Fill            Fill Type 
+    - rec_id        string
+    - rec_name      string
+    - qty           integer
+    - price         integer
+
+7. Table: Quotations
+    Fill            Fill Type 
+    - quo_id        string
+    - docwork_id    string
+    - customer_id   string
+    - status        string
+
+8. Table: QuotationsList
+    Fill            Fill Type 
+    - quo_id        string
+    - quo_name      string
+    - qty           integer
+    - price         integer
+
+9. Table: Transection 
+    Fill            Fill Type 
+    - tran_id       string
+    - tran_type     string
+    - rec_id        string
+    - tran_details   string
+    - currency_payed string
+    - currency      string
+    - bank_id       integer
+    - rate          integer
+    - price         integer
+    - date_tran     date
+    - status        string
+    - user_id       string
+    - fn            string
+
+10. Table: Customer 
+    Fill            Fill Type 
+    - name          string 
+    - last_name     string 
+    - gender        string
+    - address       string 
+    - tel           string   
+
+11. Table: User 
+    Fill            Fill Type 
+    - name          string
+    - last_name     string
+    - gender        string
+    - staff_type    string  ປະເພດປະນັກງານ user, staff 
+    - user_name     string
+    - password      string
+    - image         string 
+    - address       string
+    - tel           string
+    - role          string
+    - status        string
+
+12. Table: Roles 
+    Fill            Fill Type 
+    - role_name          string
+    - permission_access string
+
+13. Table: Setting 
+    Fill            Fill Type 
+    - company_name  string
+    - tel           string
+    - address       string 
+    - logo          string 
+    - printer_default string
+    - tax_value
+
+List Controller
+    - DocController    
+    - DocCatController    
+    - DocWorkController      
+    - ReceiptController     
+    - QuotationsController        
+    - TransectionController        
+    - CustomerController        
+    - UserController        
+    - RolesController        
+    - SettingController        
+    - ReportController        

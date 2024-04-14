@@ -8,17 +8,20 @@
       <div class="card">
         <div class="card-body">
 
-          <h4 class="mb-2">ສະບາຍດີ! 👋</h4>
-          <p class="mb-4">ຍິນດີຕ້ອນຮັບ, ກະລຸນາເຂົ້າສູ່ລະບົບ</p>
-
+          <!-- <h4 class="mb-2">ສະບາຍດີ! 👋</h4>
+          <p class="mb-4">ຍິນດີຕ້ອນຮັບ, ກະລຸນາເຂົ້າສູ່ລະບົບ</p> -->
+          <div class="text-center">
+            <img :src="url+'/assets/img/dms_logo.jpg'" width="40%" alt="" srcset="">
+          </div>
+          
           
             <div class="mb-3">
-              <label for="email" class="form-label">ຊື່ຜູ້ໃຊ້:</label>
+              <label for="email" class="form-label fs-6">ຊື່ຜູ້ໃຊ້:</label>
               <input type="text"  class="form-control" v-model="user_name" id="email" placeholder="...." >
             </div>
             <div class="mb-3 form-password-toggle">
               <div class="d-flex justify-content-between">
-                <label class="form-label" for="password">ລະຫັດຜ່ານ:</label>
+                <label class="form-label fs-6" for="password">ລະຫັດຜ່ານ:</label>
                 
               </div>
               <div class="input-group input-group-merge">
@@ -39,10 +42,7 @@
 
 
           <p class="text-center">
-            <span>ບໍ່ມີບັນຊີຜູ້ໃຊ້?</span>
-            <router-link to="/register" >
-              <span>ລົງທະບຽນ</span>
-            </router-link>
+            DMS V 1.1 Beta
           </p>
         </div>
       </div>
@@ -65,6 +65,7 @@ export default {
            check_pass_text:'',
            show_pass:'password',
            text_error:'',
+           url: window.location.origin,
         };
     },
     computed:{
@@ -86,6 +87,8 @@ export default {
           } else {
             this.check_pass_text = ''
           }
+        } else {
+          this.check_pass_text = '';
         }
 
         // ທຳການກວດຊອບແລ້ວ ປິດປຸ່ມ

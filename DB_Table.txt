@@ -119,3 +119,44 @@ List Controller
     - RolesController        
     - SettingController        
     - ReportController        
+
+    Permission 
+
+    - ຈັດການເອກະສານ
+    DOC_ACC
+    DOC_ACC_EDIT
+    DOC_ACC_DEL
+
+    - ຈັດການໃບບິນ
+    REC_ACC
+    REC_ACC_EDIT
+    REC_ACC_DEL
+
+    - ຈັດການ ຂໍ້ມູນລູກຄ້່
+    CUS_ACC
+    CUS_ACC_EDIT
+    CUS_ACC_DEL
+
+    - ຈັດການບັນຊີ
+    ACC_ACC
+    ACC_REJECT
+
+    - ຈັດການຜູ້ໃຊ້
+    USER_ACC
+    USER_ACC_EDIT
+    USER_ACC_DEL
+
+    - ຈັດການເອກະສານ 
+    DOCMG_ACC
+    DOCMG_ACC_EDIT
+    DOCMG_ACC_DEL
+
+    - ການຕັ້ງຄ່າ
+    SET_ACC
+
+    -ຈັດການສິດ
+    SET_ROLES
+
+    - ລາຍງານ
+    RP_ACC_IE
+    RP_ACC_CAS

@@ -6,7 +6,7 @@
         <input type="text" v-model="Search" @keyup.enter="GetDocCat()" class=" form-control" placeholder="ຄົ້ນຫາ...">
     </div>
     
-    <button type="button" class="btn rounded-pill btn-icon btn-info" @click="AddDocCat()">
+    <button type="button" class="btn rounded-pill btn-icon btn-info" @click="AddDocCat()" v-if="store.get_permissions.includes('DOCMG_ACC_EDIT')||JSON.parse(store.get_user).user_type=='admin'">
                 <i class='bx bx-plus fs-4'></i>
               </button>
   </div>
@@ -23,7 +23,7 @@
         <tr class="border table-info">
           <th class="fs-6 fw-bold">ຊື່ປະເພດເອກະສານ</th>
           <th class="fs-6 fw-bold" width="150">ລາຄາບໍລິການ</th>
-          <th class="fs-6 fw-bold text-center" width="100" >ຈັດການ</th>
+          <th class="fs-6 fw-bold text-center" width="100" v-if="store.get_permissions.includes('DOCMG_ACC_EDIT')||store.get_permissions.includes('DOCMG_ACC_DEL')||JSON.parse(store.get_user).user_type=='admin'" >ຈັດການ</th>
           <th class="p-0" width="45" ></th>
         </tr>
       </thead>
@@ -38,12 +38,12 @@
         <tr v-else class=" cursor-pointer" v-for="item in DocCatData.data" :key="item.id" @click="sent_id(item.id)">
           <td>{{item.name}}</td>
           <td class="text-end">{{ formatPrice(item.price)}} ກີບ</td>
-          <td class="text-center">
+          <td class="text-center" v-if="store.get_permissions.includes('DOCMG_ACC_EDIT')||store.get_permissions.includes('DOCMG_ACC_DEL')||JSON.parse(store.get_user).user_type=='admin'">
             <div class="dropdown">
               <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="javascript:void(0);" @click="EditDocCat(item.id)"><i class="bx bx-edit-alt me-1"></i> ແກ້ໄຂ</a>
-                <a class="dropdown-item" href="javascript:void(0);" @click="DeleteDocCat(item.id)"><i class="bx bx-trash me-1"></i> ລຶບ</a>
+                <a class="dropdown-item" href="javascript:void(0);" @click="EditDocCat(item.id)" v-if="store.get_permissions.includes('DOCMG_ACC_EDIT')||JSON.parse(store.get_user).user_type=='admin'"><i class="bx bx-edit-alt me-1"></i> ແກ້ໄຂ</a>
+                <a class="dropdown-item" href="javascript:void(0);" @click="DeleteDocCat(item.id)" v-if="store.get_permissions.includes('DOCMG_ACC_DEL')||JSON.parse(store.get_user).user_type=='admin'"><i class="bx bx-trash me-1"></i> ລຶບ</a>
               </div>
             </div>
           </td>
@@ -107,7 +107,12 @@
 <script>
 // import mixins
 import mixins from '../../mixins/ulmixins';
+import {useStore} from '../../Store/auth'
 export default {
+  setup() {
+    const store = useStore()
+    return {store}
+  },
     mixins: [mixins],
     name: 'DmsCateDoc',
      emits: ["catid"],

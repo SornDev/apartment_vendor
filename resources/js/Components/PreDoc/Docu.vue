@@ -6,7 +6,7 @@
         <input type="text" class=" form-control" v-model="Search" @keyup.enter="GetDoc()" placeholder="ຄົ້ນຫາ...">
     </div>
     
-    <button type="button" class="btn rounded-pill btn-icon btn-info" :disabled="!catid" @click="AddDoc()">
+    <button type="button" class="btn rounded-pill btn-icon btn-info" :disabled="!catid" @click="AddDoc()" v-if="store.get_permissions.includes('DOCMG_ACC_EDIT')||JSON.parse(store.get_user).user_type=='admin'">
                 <i class='bx bx-plus fs-4'></i>
               </button>
   </div>
@@ -15,7 +15,7 @@
       <thead>
         <tr class="border table-info">
           <th class="fs-6 fw-bold">ລາຍການເອກະສານ</th>
-          <th class="fs-6 fw-bold  text-center" width="120">ຈັດການ</th>
+          <th class="fs-6 fw-bold  text-center" width="120" v-if="store.get_permissions.includes('DOCMG_ACC_EDIT')||store.get_permissions.includes('DOCMG_ACC_DEL')||JSON.parse(store.get_user).user_type=='admin'">ຈັດການ</th>
         </tr>
       </thead>
       <tbody v-if="DocData.length>0">
@@ -28,13 +28,13 @@
         </tr>
         <tr v-else v-for="item in DocData" :key="item.id">
           <td>{{item.doc_name}} <span class="text-danger" v-if="item.notice">({{item.notice}}) </span></td>
-          <td class="text-center">
+          <td class="text-center" v-if="store.get_permissions.includes('DOCMG_ACC_EDIT')||store.get_permissions.includes('DOCMG_ACC_DEL')||JSON.parse(store.get_user).user_type=='admin'">
             <div class="dropdown">
               <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="javascript:void(0);"><i class='bx bxs-info-circle me-1'></i> ເບີ່ງ</a>
-                <a class="dropdown-item" href="javascript:void(0);" @click="EditDoc(item.id)"><i class="bx bx-edit-alt me-1"></i> ແກ້ໄຂ</a>
-                <a class="dropdown-item" href="javascript:void(0);" @click="DeleteDoc(item.id)"><i class="bx bx-trash me-1"></i> ລຶບ</a>
+                <!-- <a class="dropdown-item" href="javascript:void(0);"><i class='bx bxs-info-circle me-1'></i> ເບີ່ງ</a> -->
+                <a class="dropdown-item" href="javascript:void(0);" @click="EditDoc(item.id)" v-if="store.get_permissions.includes('DOCMG_ACC_EDIT')||JSON.parse(store.get_user).user_type=='admin'"><i class="bx bx-edit-alt me-1"></i> ແກ້ໄຂ</a>
+                <a class="dropdown-item" href="javascript:void(0);" @click="DeleteDoc(item.id)" v-if="store.get_permissions.includes('DOCMG_ACC_DEL')||JSON.parse(store.get_user).user_type=='admin'"><i class="bx bx-trash me-1"></i> ລຶບ</a>
               </div>
             </div>
           </td>
@@ -114,7 +114,14 @@
 
 <script>
 import mixins from '../../mixins/ulmixins'
+import { useStore } from '../../Store/auth'
 export default {
+    setup() {
+        const store = useStore()
+        return {
+            store
+        }
+    },
     mixins: [mixins],
     name: 'DmsDoc',
     props: {
@@ -346,7 +353,7 @@ export default {
                     } else {
                         this.upform_pre = this.url + '/assets/img/upload.png';
                     }
-                // }
+                //}
             });
         },
         DeleteDoc(id){
@@ -360,6 +367,7 @@ export default {
         GetDoc(){
             this.GetData(`doc/get/${this.catid}?search=${this.Search}`,result=>{
                 this.DocData = result
+                
             });
         }
         

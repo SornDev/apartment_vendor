@@ -11,13 +11,31 @@ use App\Models\DocWorkList;
 use App\Models\DocumentCategory;
 use App\Models\Receipt;
 use App\Models\ReceiptList;
+use JWTAuth;
 
 
 class DocWorkController extends Controller
 {
     //
 
+    public function __construct(){
+        $this->middleware('auth:api');
+    }
+
     public function index(){
+
+        if(checkRoles('DOC_ACC')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
+
+        $user_id = JWTAuth::parseToken()->authenticate()->id;
+        $user_type = JWTAuth::parseToken()->authenticate()->user_type;
 
         $search = \Request::query('search');
         $perpage = \Request::query('perpage');
@@ -25,27 +43,75 @@ class DocWorkController extends Controller
         $status = \Request::query('status');
         $doc_cat = \Request::query('doc_cat');
         
+        if($user_type=='admin'){
+
         $docwork = DocWork::join('document_categories','doc_works.doc_cat','=','document_categories.id')    
         ->join('users','doc_works.user_id','=','users.id')
         ->join('receipts','doc_works.dw_id','=','receipts.doc_work_id')
+        // join docworklist
+        // ->join('doc_work_lists','doc_works.dw_id','=','doc_work_lists.doc_work_id')
         ->select('doc_works.*','document_categories.name as doc_cat_name','users.user_name as user_name','receipts.status as rec_status')
         ->where('doc_works.status','LIKE',"%{$status}%")
         ->where('doc_works.doc_cat','LIKE',"%{$doc_cat}%")
         ->where(
             function($query) use ($search){
                 $query->where('doc_works.customer_name','LIKE',"%{$search}%")
-                ->orWhere('doc_works.customer_tel','LIKE',"%{$search}%");
-                // ->orWhere('doc_works.status','LIKE',"%{$status}%")
-                // ->orWhere('doc_works.doc_cat','LIKE',"%{$doc_cat}%");
+                ->orWhere('doc_works.customer_tel','LIKE',"%{$search}%")
+                ->orWhere('document_categories.name','LIKE',"%{$search}%")
+                ->orWhere('doc_works.dw_id','LIKE',"%{$search}%");
             }
         )
+        
         ->orderBy('doc_works.id',$sort)
         ->paginate($perpage);
+        
+        } else {
+            $docwork = DocWork::join('document_categories','doc_works.doc_cat','=','document_categories.id')    
+            ->join('users','doc_works.user_id','=','users.id')
+            ->join('receipts','doc_works.dw_id','=','receipts.doc_work_id')
+            // join docworklist
+            // ->join('doc_work_lists','doc_works.dw_id','=','doc_work_lists.doc_work_id')
+            ->select('doc_works.*','document_categories.name as doc_cat_name','users.user_name as user_name','receipts.status as rec_status')
+            ->where('doc_works.status','LIKE',"%{$status}%")
+            ->where('doc_works.doc_cat','LIKE',"%{$doc_cat}%")
+            ->where(
+                function($query) use ($search){
+                    $query->where('doc_works.customer_name','LIKE',"%{$search}%")
+                    ->orWhere('doc_works.customer_tel','LIKE',"%{$search}%")
+                    ->orWhere('document_categories.name','LIKE',"%{$search}%")
+                    ->orWhere('doc_works.dw_id','LIKE',"%{$search}%");
+                }
+            )
+            ->where('doc_works.user_id',$user_id)
+            ->orderBy('doc_works.id',$sort)
+            ->paginate($perpage);
+        }
+
+        // calculate total file in docworklist
+        foreach($docwork as $doc){
+            $docworklist = DocWorkList::where('doc_work_id',$doc->dw_id)->get();
+            $total_all_file = count($docworklist);
+
+            $docworklist_file = DocWorkList::where('doc_work_id',$doc->dw_id)->where('doc_copy','!=','')->get();
+            $total_file = count($docworklist_file);
+
+            $doc->work_file = round($total_file*100/$total_all_file,0);
+        }
+
 
         return response()->json($docwork);
     }
 
     public function add(Request $request){
+        if(checkRoles('DOC_ACC_EDIT')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
 
         try {
 
@@ -150,6 +216,16 @@ class DocWorkController extends Controller
 
     public function edit($id){
 
+        if(checkRoles('DOC_ACC_EDIT')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
+
         $docwork = DocWork::find($id);
         $docwork_list = DocWorkList::where('doc_work_id',$docwork->dw_id)->get();
         $response = [
@@ -161,6 +237,16 @@ class DocWorkController extends Controller
     }
 
     public function update(Request $request, $id){
+
+        if(checkRoles('DOC_ACC_EDIT')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
 
         try {
 
@@ -293,6 +379,17 @@ class DocWorkController extends Controller
     }
 
     public function delete($id){
+
+
+        if(checkRoles('DOC_ACC_DEL')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
 
         try {
             

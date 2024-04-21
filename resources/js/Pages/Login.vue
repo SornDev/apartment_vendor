@@ -37,7 +37,16 @@
             {{ check_email_text }} {{ check_pass_text }} {{ text_error }}
           </div>
             <div class="mb-3">
-              <button class="btn btn-primary d-grid w-100" :disabled="check_from_login" @click="login()" >ເຂົ້າສູ່ລະບົບ</button>
+              <button class="btn btn-primary d-grid w-100" :disabled="check_from_login" @click="login()" >
+                <span v-if="loading" >
+                  <span class="spinner-border me-1" role="status" aria-hidden="true"></span> ກຳລັງກວດສອບ...
+                </span>
+                
+                <span v-else>ເຂົ້າສູ່ລະບົບ</span>
+                </button>
+
+              
+
             </div>
 
 
@@ -53,9 +62,13 @@
 </template>
 
 <script>
+import { useStore} from '../Store/auth'
 export default {
     name: 'Minipos14Login',
-
+    setup() {
+        const store = useStore();
+        return { store };
+    },
     data() {
         return {
           user_name:'',
@@ -66,6 +79,7 @@ export default {
            show_pass:'password',
            text_error:'',
            url: window.location.origin,
+           loading:false
         };
     },
     computed:{
@@ -95,7 +109,12 @@ export default {
         if(this.user_name=='' || this.password.length <6){
           return true;
         } else {
-          return false;
+          if(this.loading){
+            return true;
+          } else {
+            return false;
+          }
+      
         }
 
       }
@@ -108,19 +127,23 @@ export default {
     methods: {
       login(){
           if(this.user_name !='' && this.password !=''){
-
+            this.loading = true;
             axios.post('api/login',{
                         login_user: this.user_name,
                         login_password: this.password
                     }).then((res)=>{
-
+                      this.loading = false;
                       if(res.data.success){
                         this.user_name = '';
                         this.password = '';
+                        this.$router.push('/');
+                        
                         localStorage.setItem('web_token',res.data.token);
                         localStorage.setItem('web_user',JSON.stringify(res.data.user));
+                        localStorage.setItem('web_permission',res.data.permissions);
+                        localStorage.setItem('web_setting',JSON.stringify(res.data.setting));
 
-                        this.$router.push('/');
+                        
 
                       } else {
                         this.text_error = res.data.message;

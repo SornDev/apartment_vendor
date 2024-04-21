@@ -1,6 +1,25 @@
 {
-  "_ulmixins-6Aw97T0R.js": {
-    "file": "assets/ulmixins-6Aw97T0R.js",
+  "_flatpickr-!~{00l}~.js": {
+    "file": "assets/flatpickr-u7NwRpZn.css",
+    "src": "_flatpickr-!~{00l}~.js"
+  },
+  "_flatpickr-tehUNNhR.js": {
+    "css": [
+      "assets/flatpickr-u7NwRpZn.css"
+    ],
+    "file": "assets/flatpickr-tehUNNhR.js",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "_index-YFxrcPsI.js": {
+    "file": "assets/index-YFxrcPsI.js",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "_ulmixins-3GuYya29.js": {
+    "file": "assets/ulmixins-3GuYya29.js",
     "imports": [
       "resources/js/app.js"
     ]
@@ -11,32 +30,36 @@
     "src": "resources/css/app.css"
   },
   "resources/js/Pages/Acc.vue": {
-    "file": "assets/Acc-xtxWhPg2.js",
+    "file": "assets/Acc-ZnafxHLa.js",
     "imports": [
+      "_ulmixins-3GuYya29.js",
+      "_flatpickr-tehUNNhR.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Acc.vue"
   },
   "resources/js/Pages/Cus.vue": {
-    "file": "assets/Cus-DlPw0-Er.js",
+    "file": "assets/Cus-RlC_gcg_.js",
     "imports": [
-      "_ulmixins-6Aw97T0R.js",
+      "_ulmixins-3GuYya29.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Cus.vue"
   },
   "resources/js/Pages/Dashboard.vue": {
-    "file": "assets/Dashboard-u3dSIMFz.js",
+    "file": "assets/Dashboard-4NnC-pI9.js",
     "imports": [
-      "resources/js/app.js"
+      "_ulmixins-3GuYya29.js",
+      "resources/js/app.js",
+      "_index-YFxrcPsI.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Dashboard.vue"
   },
   "resources/js/Pages/Login.vue": {
-    "file": "assets/Login-vVN0m7O8.js",
+    "file": "assets/Login-25COtBzV.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -44,7 +67,7 @@
     "src": "resources/js/Pages/Login.vue"
   },
   "resources/js/Pages/No_page.vue": {
-    "file": "assets/No_page-CNKiYGsn.js",
+    "file": "assets/No_page--3sjOFFA.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -55,9 +78,9 @@
     "css": [
       "assets/PreDoc-6PAmFmu6.css"
     ],
-    "file": "assets/PreDoc-S3WrPusT.js",
+    "file": "assets/PreDoc-xcG60W7e.js",
     "imports": [
-      "_ulmixins-6Aw97T0R.js",
+      "_ulmixins-3GuYya29.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
@@ -65,18 +88,18 @@
   },
   "resources/js/Pages/PreDocMg.vue": {
     "css": [
-      "assets/PreDocMg-UHUZQ-NW.css"
+      "assets/PreDocMg-u9NSu7e4.css"
     ],
-    "file": "assets/PreDocMg-2nQdqYvC.js",
+    "file": "assets/PreDocMg-Oklxn_tt.js",
     "imports": [
-      "_ulmixins-6Aw97T0R.js",
+      "_ulmixins-3GuYya29.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/PreDocMg.vue"
   },
   "resources/js/Pages/Quo.vue": {
-    "file": "assets/Quo-5JKtj-0V.js",
+    "file": "assets/Quo-s4IyCIUi.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -84,16 +107,24 @@
     "src": "resources/js/Pages/Quo.vue"
   },
   "resources/js/Pages/ReIncExp.vue": {
-    "file": "assets/ReIncExp-sI-1wfdv.js",
+    "file": "assets/ReIncExp-twJLIiWC.js",
     "imports": [
+      "_index-YFxrcPsI.js",
+      "_ulmixins-3GuYya29.js",
+      "_flatpickr-tehUNNhR.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/ReIncExp.vue"
   },
   "resources/js/Pages/ReRev.vue": {
-    "file": "assets/ReRev--L0oHxDF.js",
+    "css": [
+      "assets/ReRev-63eIQouW.css"
+    ],
+    "file": "assets/ReRev--Qn1VLxU.js",
     "imports": [
+      "_ulmixins-3GuYya29.js",
+      "_flatpickr-tehUNNhR.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
@@ -101,18 +132,18 @@
   },
   "resources/js/Pages/Rec.vue": {
     "css": [
-      "assets/Rec-j31uQZPT.css"
+      "assets/Rec-Qxp2QxXT.css"
     ],
-    "file": "assets/Rec-PJTj_bn-.js",
+    "file": "assets/Rec-BKyc8q6C.js",
     "imports": [
-      "_ulmixins-6Aw97T0R.js",
+      "_ulmixins-3GuYya29.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Rec.vue"
   },
   "resources/js/Pages/Register.vue": {
-    "file": "assets/Register-IZqInLuo.js",
+    "file": "assets/Register-GiliqKnt.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -120,8 +151,12 @@
     "src": "resources/js/Pages/Register.vue"
   },
   "resources/js/Pages/Setting.vue": {
-    "file": "assets/Setting-g0Xt0aW0.js",
+    "css": [
+      "assets/Setting-XkrlthKA.css"
+    ],
+    "file": "assets/Setting-aMoxbMjt.js",
     "imports": [
+      "_ulmixins-3GuYya29.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
@@ -129,11 +164,11 @@
   },
   "resources/js/Pages/TranDoc.vue": {
     "css": [
-      "assets/TranDoc-eY_RwAvK.css"
+      "assets/TranDoc-W-5v6fNE.css"
     ],
-    "file": "assets/TranDoc-MHgExWzE.js",
+    "file": "assets/TranDoc-Xwz4ADcV.js",
     "imports": [
-      "_ulmixins-6Aw97T0R.js",
+      "_ulmixins-3GuYya29.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
@@ -141,15 +176,24 @@
   },
   "resources/js/Pages/UserMg.vue": {
     "css": [
-      "assets/UserMg-VgGavHio.css"
+      "assets/UserMg-Lgxd0LBF.css"
     ],
-    "file": "assets/UserMg-14bnH1Wc.js",
+    "file": "assets/UserMg-IOpvvAQP.js",
     "imports": [
-      "_ulmixins-6Aw97T0R.js",
+      "_ulmixins-3GuYya29.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/UserMg.vue"
+  },
+  "resources/js/Pages/UserPer.vue": {
+    "file": "assets/UserPer-cSVl6ReN.js",
+    "imports": [
+      "_ulmixins-3GuYya29.js",
+      "resources/js/app.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/UserPer.vue"
   },
   "resources/js/app.js": {
     "css": [
@@ -168,11 +212,12 @@
       "resources/js/Pages/Setting.vue",
       "resources/js/Pages/PreDocMg.vue",
       "resources/js/Pages/UserMg.vue",
+      "resources/js/Pages/UserPer.vue",
       "resources/js/Pages/ReIncExp.vue",
       "resources/js/Pages/ReRev.vue",
       "resources/js/Pages/No_page.vue"
     ],
-    "file": "assets/app-tVS7sfzb.js",
+    "file": "assets/app-R5zms-zh.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }

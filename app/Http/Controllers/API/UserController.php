@@ -7,11 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Setting;
+use App\Models\Roles;
 use JWTAuth;
 
 class UserController extends Controller
 {
     //
+
+    public function __construct(){
+        $this->middleware('auth:api', ['except'=>['login','register']]);
+        // $this->middleware('auth:api');
+    }
 
     public function login(Request $request){
 
@@ -22,11 +29,15 @@ class UserController extends Controller
 
         $token = JWTAUTH::attempt($user_login); // ກວດຊອບ ອີເມວລ໌ ແລະ ລະຫັດຜ່ານ ແລ້ວສ້າງ token ຂື້ນມາ
         $user = Auth::user(); // ຫຼັງຈາກ login ສຳເລັດແມ່ນ ດຶງຂໍ້ມູນ User ທີ່ login ອອກມາ
+        $permissions = Roles::where('id',$user->roles)->first(); // ດຶງຂໍ້ມູນສິດທິທີ່ມີຢູ່
+        $setting = Setting::first(); // ດຶງຂໍ້ມູນຕັ້ງຄ່າທີ່ມີຢູ່
 
         if($token){
             return response()->json([
                 'success' => true,
                 'message' => 'ສຳເລັດ!',
+                'permissions' => $permissions->permission_access,
+                'setting' => $setting,
                 'user' => $user,
                 'token' => $token
             ]);
@@ -53,6 +64,16 @@ class UserController extends Controller
 
     public function index(){
 
+       if(checkRoles('USER_ACC')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
+
         $search = \Request::query('search');
         $perpage = \Request::query('perpage');
         $sort = \Request::query('sort');
@@ -66,7 +87,16 @@ class UserController extends Controller
             }
         )
         ->paginate($perpage);
-        return response()->json($user);
+
+        $roles = Roles::select('id','role_name')->get();
+        
+        $response = [
+            'user' => $user,
+            'roles' => $roles,
+            'success' => true,
+        ];
+
+        return response()->json($response);
     }
 
     public function add(Request $request){
@@ -99,6 +129,7 @@ class UserController extends Controller
             $user->tel = $request->tel;
             $user->address = $request->address;
             $user->roles = $request->roles;
+            $user->user_type = 'user';
             $user->status = $request->status;
             $user->save();
 
@@ -119,15 +150,44 @@ class UserController extends Controller
     }
 
     public function edit($id){
+        
+        if(checkRoles('USER_ACC_EDIT')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
 
         $user = User::find($id);
-        return response()->json($user);
+        $roles = Roles::select('id','role_name')->get();
+
+        $response = [
+            'user' => $user,
+            'roles' => $roles,
+            'success' => true,
+        ];
+        return response()->json($response);
 
     }
 
     public function update(Request $request, $id){
 
+        if(checkRoles('USER_ACC_EDIT')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
+
         try {
+
+            
 
 
             // ຖ້າຫາກວ່າມີ file ຊື່ image ສົ່ງມາໃຫ້ເຮັດວຽກຢູ່ນີ້
@@ -202,6 +262,16 @@ class UserController extends Controller
     }
 
     public function delete($id){
+
+        if(checkRoles('USER_ACC_DEL')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
 
         try {
             

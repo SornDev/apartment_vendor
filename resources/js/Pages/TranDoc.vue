@@ -29,7 +29,7 @@
             </div>
             <div class=" d-flex">
                 <input type="text" class=" form-control me-2" placeholder="ຄົ້ນຫາ..." v-model="Search" @keyup.enter="GetDocWork()">
-                <button class="btn btn-primary" @click="AddDocWork()">ເພີ່ມໃໝ່</button>
+                <button class="btn btn-primary" @click="AddDocWork()" v-if="store.get_permissions.includes('DOC_ACC_EDIT')||JSON.parse(store.get_user).user_type=='admin'">ເພີ່ມໃໝ່</button>
             </div>
         </div>
       <table class="table table-bordered">
@@ -39,33 +39,39 @@
             <th class="fs-6 fw-bold">ວັນທີ່</th>
             <th class="fs-6 fw-bold">ປະເພດເອກະສານ</th>
             <th class="fs-6 fw-bold">ລູກຄ້າ</th>
-            <th class="fs-6 fw-bold text-center">ສະຖານະ</th>
+            <th class="fs-6 fw-bold text-center">ເອກະສານ</th>
             <th class="fs-6 fw-bold text-center">ຊຳລ່ະ</th>
             <th class="fs-6 fw-bold">ຜູ້ບັນທຶກ</th>
-            <th class="fs-6 fw-bold">ຈັດການ</th>
+            <th class="fs-6 fw-bold" v-if="store.get_permissions.includes('DOC_ACC_EDIT')||store.get_permissions.includes('DOC_ACC_DEL')||JSON.parse(store.get_user).user_type=='admin'">ຈັດການ</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="TranDocData.data.length>0">
           <tr v-for="list in TranDocData.data" :key="list">
             <td>{{list.dw_id}}</td>
             <td>{{ date(list.created_at) }}</td>
             <td> {{ list.doc_cat_name }} </td>
             <td> <span v-if="list.customer_name">{{list.customer_name}}</span> <span v-else>ລູກຄ້າທົ່ວໄປ</span> </td>
              <td> 
-                <span class="badge bg-label-success me-1" v-if="list.status=='success'">ສຳເລັດ</span>
-                <span class="badge bg-label-warning me-1" v-else>ດຳເນີນການ</span>
+              <div class="d-flex align-items-center" :class="list.work_file<80?'text-danger':'text-info'">
+              <div class="progress w-75 me-2" style="height: 8px;">
+                <div class="progress-bar " :class="list.work_file<80?'bg-danger':'bg-info'" :style="'width:'+list.work_file+'%'" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <span>{{list.work_file}}%</span>
+            </div>
+                <!-- <span class="badge bg-label-success me-1" v-if="list.status=='success'">ສຳເລັດ</span>
+                <span class="badge bg-label-warning me-1" v-else>ດຳເນີນການ</span> -->
              </td>
              <td>
               <span class="badge bg-label-success me-1" v-if="list.rec_status=='success'">ສຳເລັດ</span>
                 <span class="badge bg-label-warning me-1" v-else>ດຳເນີນການ</span>
              </td>
              <td> {{list.user_name}} </td>
-            <td class="text-center">
+            <td class="text-center" v-if="store.get_permissions.includes('DOC_ACC_EDIT')||store.get_permissions.includes('DOC_ACC_DEL')||JSON.parse(store.get_user).user_type=='admin'">
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="javascript:void(0);" @click="EditDocWork(list.id)"><i class="bx bx-edit-alt me-1"></i> ແກ້ໄຂ</a>
-                  <a class="dropdown-item" href="javascript:void(0);" @click="DelDocWork(list.id)"><i class="bx bx-trash me-1"></i> ລຶບ</a>
+                  <a class="dropdown-item" href="javascript:void(0);" @click="EditDocWork(list.id)" v-if="store.get_permissions.includes('DOC_ACC_EDIT')||JSON.parse(store.get_user).user_type=='admin'"><i class="bx bx-edit-alt me-1"></i> ແກ້ໄຂ</a>
+                  <a class="dropdown-item" href="javascript:void(0);" @click="DelDocWork(list.id)" v-if="store.get_permissions.includes('DOC_ACC_DEL')||JSON.parse(store.get_user).user_type=='admin'"><i class="bx bx-trash me-1"></i> ລຶບ</a>
                 </div>
               </div>
             </td>
@@ -73,6 +79,11 @@
           
          
         </tbody>
+        <tbody v-else>
+        <tr>
+            <td colspan="8" class="text-center"> <i class='bx bxs-data me-1' ></i> ບໍ່ມີຂໍ້ມູນ </td>
+        </tr>
+      </tbody>
       </table>
       <pagination
                             :pagination="TranDocData"
@@ -215,7 +226,12 @@
 <script>
 import moment from 'moment';
 import mixins from '../mixins/ulmixins'
+import {useStore} from '../Store/auth'
 export default {
+  setup() {
+    const store = useStore()
+    return {store}
+  },
     name: 'DmsTranDoc',
     mixins:[mixins],
     data() {

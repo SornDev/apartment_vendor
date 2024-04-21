@@ -20,7 +20,7 @@
             </div>
             <div class=" d-flex">
                 <input type="text" class=" form-control me-2" v-model="Search" @keyup.enter="GetUser()" placeholder="ຄົ້ນຫາ...">
-                <button class="btn btn-primary" @click="AddUser()">ເພີ່ມໃໝ່</button>
+                <button class="btn btn-primary" @click="AddUser()" v-if="store.get_permissions.includes('USER_ACC_EDIT')||JSON.parse(store.get_user).user_type=='admin'">ເພີ່ມໃໝ່</button>
             </div>
         </div>
       <table class="table table-bordered">
@@ -31,7 +31,7 @@
             <th class="fs-6 fw-bold">ທີ່ຢູ່ / ຕິດຕໍ່</th>
             <th class="fs-6 fw-bold">ຊື່ຜູ້ໃຊ້</th>
             <th class="fs-6 fw-bold" width="110">ສະຖານະ</th>
-            <th class="fs-6 fw-bold" width="100">ຈັດການ</th>
+            <th class="fs-6 fw-bold" width="100" v-if="store.get_permissions.includes('USER_ACC_EDIT')||store.get_permissions.includes('USER_ACC_DEL')||JSON.parse(store.get_user).user_type=='admin'">ຈັດການ</th>
           </tr>
         </thead>
         <tbody v-if="UserData.data.length>0">
@@ -54,12 +54,12 @@
               <span class="badge bg-label-success" v-if="list.status=='active'">ໃຊ້ຢູ່</span>
               <span class="badge bg-label-danger" v-else >ປິດ</span>
                </td>
-            <td class="text-center">
+            <td class="text-center" v-if="store.get_permissions.includes('USER_ACC_EDIT')||store.get_permissions.includes('USER_ACC_DEL')">
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="javascript:void(0);" @click="EditUser(list.id)"><i class="bx bx-edit-alt me-1"></i> ແກ້ໄຂ</a>
-                  <a class="dropdown-item" href="javascript:void(0);" @click="DeleteUser(list.id)"><i class="bx bx-trash me-1"></i> ລຶບ</a>
+                  <a class="dropdown-item" href="javascript:void(0);" @click="EditUser(list.id)" v-if="store.get_permissions.includes('USER_ACC_EDIT')||JSON.parse(store.get_user).user_type=='admin'"><i class="bx bx-edit-alt me-1"></i> ແກ້ໄຂ</a>
+                  <a class="dropdown-item" href="javascript:void(0);" @click="DeleteUser(list.id)" v-if="store.get_permissions.includes('USER_ACC_DEL')||JSON.parse(store.get_user).user_type=='admin'"><i class="bx bx-trash me-1"></i> ລຶບ</a>
                 </div>
               </div>
             </td>
@@ -69,8 +69,6 @@
         <tr>
             <td colspan="6" class="text-center"> <i class='bx bxs-data me-1' ></i> ບໍ່ມີຂໍ້ມູນ </td>
         </tr>
-      
-        
       </tbody>
       </table>
       <pagination
@@ -174,8 +172,7 @@
                     <div class="col-md-6">
                      <label for="rolse" class="form-label fs-6">ສິດຜູ້ໃຊ້:</label>
                         <select id="st" v-model="UserForm.roles" class="form-select">
-                          <option value="staff">ພະນັກງານ</option>
-                          <option value="user">ພະນັກງານ ແລະ ຜູ້ໃຊ້ງານ</option>
+                          <option :value="item.id" v-for="item in RolesData" :key="item.id"> {{item.role_name}} </option>
                         </select>
                     </div>
                     <div class="col-md-6">
@@ -208,8 +205,13 @@
 
 <script>
 import mixins from '../mixins/ulmixins'
+import { useStore } from '../Store/auth'
 export default {
     name: 'DmsUserMg',
+    setup() {
+      const store = useStore()
+      return { store }
+    },
     mixins:[mixins],
     data() {
         return {
@@ -218,6 +220,7 @@ export default {
             UserData:{
               data:[]
             },
+            RolesData:[],
             UserForm:{
               name:'',
               last_name:'',
@@ -337,16 +340,30 @@ export default {
         EditUser(id){
           this.FormType = false
           this.EditData('user/edit',id,result=>{
-            this.UserForm = result
-            if(result.image){
-              this.user_img_pre = this.url+'/assets/img/'+result.image
-            } else {
-              this.user_img_pre = this.url+'/assets/img/no-img.jpeg'
+            if(result.success){
+              this.EditID = id
+              this.UserForm = result.user
+              if(result.user.image){
+                this.user_img_pre = this.url+'/assets/img/'+result.user.image
+              } else {
+                this.user_img_pre = this.url+'/assets/img/no-img.jpeg'
+              }
+              var modal = new bootstrap.Modal(document.getElementById('user-form'), {
+                  keyboard: false
+              })
+              modal.show()
             }
-            var modal = new bootstrap.Modal(document.getElementById('user-form'), {
-                keyboard: false
-            })
-            modal.show()
+            // this.RolesData = result.roles
+            // this.UserForm = result.user
+            // if(result.user.image){
+            //   this.user_img_pre = this.url+'/assets/img/'+result.user.image
+            // } else {
+            //   this.user_img_pre = this.url+'/assets/img/no-img.jpeg'
+            // }
+            // var modal = new bootstrap.Modal(document.getElementById('user-form'), {
+            //     keyboard: false
+            // })
+            // modal.show()
           })
         },
         DeleteUser(id){
@@ -358,7 +375,8 @@ export default {
         },
         GetUser(page){
           this.GetData(`user/get?page=${page}&perpage=${this.PerPage}&sort=${this.Sort}&search=${this.Search}`,result=>{
-            this.UserData = result
+            this.UserData = result.user
+            this.RolesData = result.roles
           })
         }
     },

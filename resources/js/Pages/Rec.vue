@@ -37,7 +37,7 @@
               @keyup.enter="GetRec()"
               placeholder="ຄົ້ນຫາ..."
             />
-            <button class="btn btn-primary" @click="AddRec()">ເພີ່ມໃໝ່</button>
+            <button class="btn btn-primary" @click="AddRec()" v-if="store.get_permissions.includes('REC_ACC_EDIT')||JSON.parse(store.get_user).user_type=='admin'">ເພີ່ມໃໝ່</button>
           </div>
         </div>
         <table class="table table-bordered">
@@ -49,10 +49,10 @@
               <th class="fs-6 fw-bold text-center">ລາຄາ</th>
               <th class="fs-6 fw-bold">ສະຖານະ</th>
               <th class="fs-6 fw-bold">ຜູ້ບັນທຶກ</th>
-              <th class="fs-6 fw-bold">ຈັດການ</th>
+              <th class="fs-6 fw-bold" >ຈັດການ</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="RecData.data.length>0">
             <tr v-for="list in RecData.data" :key="list.id">
               <td>{{ list.rec_id }}</td>
               <td>{{ date(list.created_at) }}</td>
@@ -86,17 +86,26 @@
                   >
                     <i class="bx bx-dots-vertical-rounded"></i>
                   </button>
-                  <div class="dropdown-menu">
+                  <div class="dropdown-menu"> 
+                  <a
+                      class="dropdown-item"
+                      href="javascript:void(0);"
+                      @click="PtintBill(list.rec_id,JSON.parse(store.get_setting).printer_default)"
+                      ><i class='bx bx-printer me-1'></i> ປຼິນ</a
+                    >
+
                     <a
                       class="dropdown-item"
                       href="javascript:void(0);"
                       @click="EditRec(list.id)"
+                      v-if="store.get_permissions.includes('REC_ACC_EDIT')||JSON.parse(store.get_user).user_type=='admin'"
                       ><i class="bx bx-edit-alt me-1"></i> ແກ້ໄຂ</a
                     >
                     <a
                       class="dropdown-item"
                       href="javascript:void(0);"
                       @click="DelRec(list.id)"
+                      v-if="store.get_permissions.includes('REC_ACC_DEL')||JSON.parse(store.get_user).user_type=='admin'"
                       ><i class="bx bx-trash me-1"></i> ຍົກເລີກ</a
                     >
                   </div>
@@ -104,6 +113,11 @@
               </td>
             </tr>
           </tbody>
+          <tbody v-else>
+        <tr>
+            <td colspan="7" class="text-center"> <i class='bx bxs-data me-1' ></i> ບໍ່ມີຂໍ້ມູນ </td>
+        </tr>
+      </tbody>
         </table>
         <pagination
           :pagination="RecData"
@@ -136,12 +150,16 @@
               >
             </div>
             <div class="col-md-6 text-end">
-              <button type="button" class="btn btn-warning me-2">
+              <button type="button" class="btn btn-warning me-2" @click="PtintBill(RecForm.rec_id,'quo')">
+                <i class="bx bxs-printer"></i> ສະເໜີລາຄາ
+              </button>
+              <button type="button" class="btn btn-warning me-2" @click="PtintBill(RecForm.rec_id,'80')">
                 <i class="bx bxs-printer"></i> 80mm
               </button>
-              <button type="button" class="btn btn-warning">
+              <button type="button" class="btn btn-warning" @click="PtintBill(RecForm.rec_id,'a4')">
                 <i class="bx bxs-printer"></i> A4
               </button>
+              
             </div>
           </div>
           <Transition name="slide-fade">
@@ -431,7 +449,7 @@
                     <tr>
                       <td colspan="4" class="text-end">
                         <div class="d-flex justify-content-end fs-6">
-                          ອມພ(7%)
+                          ອມພ({{JSON.parse(store.get_setting).tax_value}}%)
                           <div
                             class="form-check form-switch ms-2"
                             v-if="
@@ -598,7 +616,14 @@
                 </table>
               </div>
 
-              <div class="d-flex justify-content-end mt-4">
+              <div class="d-flex justify-content-end mt-4 align-items-center"> 
+                <div class="form-check me-4 "> 
+                  <input class="form-check-input" type="checkbox" id="prnt-4a" v-model="PrintA4">
+                  <label class="form-check-label" for="prnt-4a">
+                    ພິມບິນພ້ອມ
+                  </label>
+                </div>
+
                 <button
                   type="button"
                   class="btn btn-primary me-2"
@@ -629,8 +654,13 @@
 
 <script>
 import mixins from "../mixins/ulmixins";
+import { useStore } from '../Store/auth';
 export default {
   name: "DmsRec",
+  setup() {
+    const store = useStore();
+    return { store };
+  },
   mixins: [mixins],
   data() {
     return {
@@ -638,6 +668,7 @@ export default {
       RecData: {
         data: [],
       },
+      PrintA4:true,
       Status: "",
       Sort: "desc",
       RecForm: {
@@ -717,7 +748,7 @@ export default {
     CalVat() {
       let vat = 0;
       if (this.PaySetting.rec_vat) {
-        vat = ((this.TotalSum - this.PaySetting.rec_discount) * 7) / 100;
+        vat = ((this.TotalSum - this.PaySetting.rec_discount) * JSON.parse(this.store.get_setting).tax_value) / 100;
       }
       return vat;
     },
@@ -734,6 +765,14 @@ export default {
       setTimeout(() => {
         this.$refs.search_cus.focus();
       }, 600);
+    },
+    PtintBill(id,type){
+      if(type == '80')
+      this.openLink(window.location.origin + `/api/rec/print/80mm/${id}`);
+      if(type == 'a4')
+      this.openLink(window.location.origin + `/api/rec/print/a4/${id}`);
+      if(type == 'quo')
+      this.openLink(window.location.origin + `/api/rec/print/quo/${id}`);
     },
     GetCus() {
       // console.log('aa');
@@ -844,6 +883,7 @@ export default {
       );
     },
     EditRec(id) {
+      this.PrintA4 = true;
       this.FormType = false;
       this.PaySetting.customer_pay = 0;
       this.EditData(`rec/edit`, id, (result) => {
@@ -887,6 +927,9 @@ export default {
             if (result.success) {
               this.GetRec();
               this.$refs.close_rec_form.click();
+              if(this.PrintA4){
+                this.PtintBill(this.RecForm.rec_id,JSON.parse(this.store.get_setting).printer_default)
+              }
               // console.log(this.$refs.close_rec_form.click())
             }
           }

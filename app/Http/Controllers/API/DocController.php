@@ -10,14 +10,39 @@ class DocController extends Controller
 {
     //
 
+    public function __construct(){
+        $this->middleware('auth:api');
+    }
+
 
     public function index(){
+
+       
+        if(checkRoles('DOCMG_ACC')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
 
         $doc = Document::orderBy('id','asc')->get();
         return response()->json($doc);
     }
 
     public function getdoc($id){
+
+        if(checkRoles('DOCMG_ACC')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
 
         $search = \Request::query('search');
 
@@ -30,6 +55,16 @@ class DocController extends Controller
     }
 
     public function add(Request $request){
+
+        if(checkRoles('DOCMG_ACC_EDIT')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
 
         try {
 
@@ -89,12 +124,32 @@ class DocController extends Controller
 
     public function edit($id){
 
+        if(checkRoles('DOCMG_ACC_EDIT')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
+
         $doc = Document::find($id);
         return response()->json($doc);
 
     }
 
     public function update(Request $request, $id){
+
+        if(checkRoles('DOCMG_ACC_EDIT')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
 
         try {
 
@@ -209,6 +264,16 @@ class DocController extends Controller
     }
 
     public function delete($id){
+
+        if(checkRoles('DOCMG_ACC_DEL')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
 
         try {
             

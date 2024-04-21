@@ -1,1 +1,0 @@
-import{_ as e,c as o,o as a,a as s}from"./app-tVS7sfzb.js";const t={name:"DmsDashboard",data(){return{}},mounted(){},methods:{}},n=s("h1",null,"Dashboard",-1),r=[n];function c(d,_,h,l,m,p){return a(),o("div",null,r)}const i=e(t,[["render",c]]);export{i as default};

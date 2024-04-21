@@ -31,30 +31,36 @@
       <table class="table table-bordered">
         <thead>
           <tr class="table-info">
-            <th class="fs-6 fw-bold"></th>
-            <th class="fs-6 fw-bold">ວັນທີ່</th>
+            <th class="fs-6 fw-bold text-center" colspan="2">ສະຖານະ</th>
             <th class="fs-6 fw-bold">ເລກທີທຸລະກຳ</th>
+            <th class="fs-6 fw-bold">ວັນທີ່</th>
             <th class="fs-6 fw-bold">ລາຍລະອຽດ</th>
             <th class="fs-6 fw-bold">ຈຳນວນເງິນ</th>
             <th class="fs-6 fw-bold">ຈ່າຍໂດຍ</th>
             <th class="fs-6 fw-bold">ຜູ້ລົງບັນຊີ</th>
-            <th class="fs-6 fw-bold">ຈັດການ</th>
+            <th class="fs-6 fw-bold" v-if="store.get_permissions.includes('ACC_REJECT')||JSON.parse(store.get_user).user_type=='admin'">ຈັດການ</th>
+            
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="TranData.data.length>0">
           <tr v-for="list in TranData.data" :key="list">
-            <td><i class='bx bxs-left-arrow-alt fs-3 text-success' v-if="list.tran_type=='income'"></i>
+             <td class="p-1 text-center">
+              <i class='bx bxs-check-shield text-success fs-4' v-if="list.status=='success'"></i>
+              <i class='bx bxs-shield-x text-danger fs-4' v-else></i>
+            </td>
+            <td class="p-1 text-center"><i class='bx bxs-left-arrow-alt fs-3 text-success' v-if="list.tran_type=='income'"></i>
                 <i class='bx bxs-right-arrow-alt fs-3 text-danger' v-else ></i>
             </td>
-            <td>{{ date_change(list.tran_date) }}</td>
             <td> {{list.tran_id}} </td>
+            <td>{{ date_change(list.tran_date) }}</td>
+            
              <td > 
                {{list.tran_details}} 
              </td>
              <td class="text-end"> {{ formatPrice(list.price) }} ₭</td>
              <td>  <span v-if="list.bank_id=='bank'">ເງິນໂອນ</span> <span v-else>ເງິນສົດ</span>  </td>
              <td> {{list.user_name}}</td>
-            <td class="text-center">
+            <td class="text-center" v-if="store.get_permissions.includes('ACC_REJECT')||JSON.parse(store.get_user).user_type=='admin'">
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
                 <div class="dropdown-menu">
@@ -63,8 +69,14 @@
                 </div>
               </div>
             </td>
+           
           </tr>
         </tbody>
+        <tbody v-else>
+        <tr>
+            <td colspan="9" class="text-center"> <i class='bx bxs-data me-1' ></i> ບໍ່ມີຂໍ້ມູນ </td>
+        </tr>
+      </tbody>
       </table> 
       <pagination
                             :pagination="TranData"
@@ -104,7 +116,12 @@ import moment from 'moment';
 import mixins from '../mixins/ulmixins';
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
+import {useStore} from '../Store/auth'
 export default {
+  setup() {
+    const store = useStore()
+    return { store }
+  },
     mixins: [mixins],
     name: 'DmsAcc',
 

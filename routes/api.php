@@ -13,6 +13,9 @@ use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\DocWorkController;
 use App\Http\Controllers\API\ReceiptController;
 use App\Http\Controllers\API\TransectionController;
+use App\Http\Controllers\API\SettingController;
+use App\Http\Controllers\API\ReportController;
+use App\Http\Controllers\API\RolesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +104,9 @@ Route::controller(ReceiptController::class)->group(function (){
     Route::post('rec/add','add');
     Route::post('rec/update/{id}','update');
     Route::delete('rec/delete/{id}','delete');
+    Route::get('rec/print/80mm/{id}','print80');
+    Route::get('rec/print/a4/{id}','printa4');
+    Route::get('rec/print/quo/{id}','printquo');
 });
 
 Route::controller(TransectionController::class)->group(function (){
@@ -109,4 +115,26 @@ Route::controller(TransectionController::class)->group(function (){
     Route::post('acc/add','add');
     Route::post('acc/update/{id}','update');
     Route::delete('acc/delete/{id}','delete');
+    Route::get('gettran/dashtran','dashtran');
+    Route::get('gettran/gmn','gmn');
+    Route::get('gettran/dashtop','dashtop');
+    Route::get('gettran/incexp','incexp');
+});
+
+Route::controller(SettingController::class)->group(function (){
+    Route::get('setting/get','index');
+    Route::post('setting/update','update');
+});
+
+
+Route::controller(ReportController::class)->group(function (){
+    Route::post('report/finance','finance');
+});
+
+Route::controller(RolesController::class)->group(function (){
+    Route::get('roles/get','index');
+    Route::get('roles/edit/{id}','edit');
+    Route::post('roles/add','add');
+    Route::post('roles/update/{id}','update');
+    Route::delete('roles/delete/{id}','delete');
 });

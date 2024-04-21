@@ -3,12 +3,14 @@ export const useStore = defineStore('auth',{
     state: ()=>({
         token: null,
         user: null,
-        permissions:[],
+        permissions:null,
+        setting:null
     }),
     getters:{
         get_token:(state)=> state.token,
         get_user: (state)=> state.user,
-        get_permissions: (state)=> state.permissions
+        get_permissions: (state)=> state.permissions,
+        get_setting: (state)=> state.setting
     },
     actions:{
         set_token(new_token){
@@ -20,6 +22,9 @@ export const useStore = defineStore('auth',{
         set_permissions(new_permissions){
             this.permissions = new_permissions
         },
+        set_setting(new_setting){
+            this.setting = new_setting
+        },
         remove_token(){
             this.token = null
         },
@@ -27,7 +32,10 @@ export const useStore = defineStore('auth',{
             this.user = null
         },
         remove_permissions(){
-            this.permissions = []
+            this.permissions = null
+        },
+        remove_setting(){
+            this.setting = null
         }
     }
 })

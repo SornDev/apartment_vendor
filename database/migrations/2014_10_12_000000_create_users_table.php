@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('tel')->nullable();
             $table->string('address')->nullable();
             $table->string('roles')->nullable();
+            $table->string('user_type')->nullable();
             $table->string('status');
             $table->timestamps();
         });

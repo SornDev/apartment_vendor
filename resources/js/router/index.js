@@ -9,18 +9,24 @@ import { createWebHistory, createRouter } from "vue-router";
 // import Login from '../Pages/Login.vue';
 // import Register from '../Pages/Register.vue';
 
-import { useStore } from "../store/auth";
+import { useStore } from "../Store/auth";
 
 const authMiddleware = (to, from, next) =>{
     const token = localStorage.getItem('web_token');
     const user = localStorage.getItem('web_user');
+    const user_permissions = localStorage.getItem('web_permission');
+    const user_setting = localStorage.getItem('web_setting');
     const store = useStore();
 
     if(token){
+
         // ຖ້າມີ token ໃນ localStorage
         // ຂຽນຂໍ້ມູນ token ແລະ user ເຂົ້າໄປໃນ pinia
+        // console.log(user_permissions)
         store.set_token(token);
         store.set_user(user);
+        store.set_permissions(user_permissions);
+        store.set_setting(user_setting);
         next();
     } else {
         // ຖ້າບໍ່ມີ token ໃນ localStorage
@@ -122,6 +128,14 @@ export const routes = [
         name: 'user-mg',
         path: '/user-mg',
         component: () => import('../Pages/UserMg.vue'),
+        meta: {
+            middleware: [authMiddleware]
+        }
+    },
+    {
+        name: 'user-per',
+        path: '/user-per',
+        component: () => import('../Pages/UserPer.vue'),
         meta: {
             middleware: [authMiddleware]
         }

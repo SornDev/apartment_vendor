@@ -5,56 +5,121 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Roles;
 use App\Models\Receipt;
 use App\Models\ReceiptList;
 use App\Models\User;
 use App\Models\Transection;
+use App\Models\Setting;
 use JWTAuth;
 
 class ReceiptController extends Controller
 {
     //
 
+    public function __construct(){
+        // $this->middleware('auth:api');
+    }
+
     public function index(){
+
+        if(checkRoles('REC_ACC')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
+
+        $user_id = JWTAuth::parseToken()->authenticate()->id;
+        $user_type = JWTAuth::parseToken()->authenticate()->user_type;
+
+    
 
         $search = \Request::query('search');
         $perpage = \Request::query('perpage');
         $sort = \Request::query('sort');
         $status = \Request::query('status');
 
-        $doccat = Receipt::join('users','receipts.user_id','=','users.id')
-        // join receipt_list sum price
-        ->join('receipt_lists','receipts.rec_id','=','receipt_lists.rec_id')
-        // ->select('receipts.*','users.user_name as user_name',\DB::raw('SUM(receipt_lists.price*receipt_lists.qty) as total_price'))
-        ->select('receipts.*','users.user_name as user_name',\DB::raw('IF(receipts.rec_vat = 1, SUM(receipt_lists.price*receipt_lists.qty)+((SUM(receipt_lists.price*receipt_lists.qty)*7)/100), SUM(receipt_lists.price*receipt_lists.qty)) as total_price'))
+        if($user_type == 'admin'){
 
-        // ->where('name','LIKE',"%{$search}%")
-        // ->select('receipts.*','users.user_name as user_name')
-        ->where('receipts.status','LIKE',"%{$status}%")
-        ->where(
-            function($query) use ($search){
-                $query->where('receipts.rec_id','LIKE',"%{$search}%")
-                ->orWhere('receipts.customer_name','LIKE',"%{$search}%")
-                ->orWhere('receipts.customer_tel','LIKE',"%{$search}%");
-                // ->orWhere('doc_works.status','LIKE',"%{$status}%")
-                // ->orWhere('doc_works.doc_cat','LIKE',"%{$doc_cat}%");
-            }
-        )
-        // group by all column
-        // ->groupBy('receipts.rec_id', 'receipts.user_id', 'users.user_name')
-        // if receipt rec_vat = 1 then total_price = total_price + (total_price*7)/100 else total_price
-        // ->addSelect(\DB::raw('IF(receipts.rec_vat = 1, SUM(receipt_lists.price*receipt_lists.qty)+((SUM(receipt_lists.price*receipt_lists.qty)*7)/100), SUM(receipt_lists.price*receipt_lists.qty)) as total_price'))
-        
-        // what group by
-        ->groupBy('receipts.rec_id','receipts.id','receipts.doc_work_id','receipts.customer_name','receipts.customer_tel','receipts.customer_id','receipts.status','receipts.created_at','receipts.updated_at','receipts.user_id','users.user_name','receipts.quo_id','receipts.customer_address','receipts.rec_discount','receipts.rec_vat')
-        ->orderBy('receipts.id',$sort)
-        ->paginate($perpage);
+            $rec = Receipt::join('users','receipts.user_id','=','users.id')
+            // join receipt_list sum price
+            ->join('receipt_lists','receipts.rec_id','=','receipt_lists.rec_id')
+            // ->select('receipts.*','users.user_name as user_name',\DB::raw('SUM(receipt_lists.price*receipt_lists.qty) as total_price'))
+            ->select('receipts.*','users.user_name as user_name',\DB::raw('IF(receipts.rec_vat = 1, SUM(receipt_lists.price*receipt_lists.qty)+((SUM(receipt_lists.price*receipt_lists.qty)*7)/100), SUM(receipt_lists.price*receipt_lists.qty)) as total_price'))
+    
+            // ->where('name','LIKE',"%{$search}%")
+            // ->select('receipts.*','users.user_name as user_name')
+            ->where('receipts.status','LIKE',"%{$status}%")
+            ->where(
+                function($query) use ($search){
+                    $query->where('receipts.rec_id','LIKE',"%{$search}%")
+                    ->orWhere('receipts.customer_name','LIKE',"%{$search}%")
+                    ->orWhere('receipts.customer_tel','LIKE',"%{$search}%");
+                    // ->orWhere('doc_works.status','LIKE',"%{$status}%")
+                    // ->orWhere('doc_works.doc_cat','LIKE',"%{$doc_cat}%");
+                }
+            )
+            // group by all column
+            // ->groupBy('receipts.rec_id', 'receipts.user_id', 'users.user_name')
+            // if receipt rec_vat = 1 then total_price = total_price + (total_price*7)/100 else total_price
+            // ->addSelect(\DB::raw('IF(receipts.rec_vat = 1, SUM(receipt_lists.price*receipt_lists.qty)+((SUM(receipt_lists.price*receipt_lists.qty)*7)/100), SUM(receipt_lists.price*receipt_lists.qty)) as total_price'))
+            
+            // what group by
+            ->groupBy('receipts.rec_id','receipts.id','receipts.doc_work_id','receipts.customer_name','receipts.customer_tel','receipts.customer_id','receipts.status','receipts.created_at','receipts.updated_at','receipts.user_id','users.user_name','receipts.quo_id','receipts.customer_address','receipts.rec_discount','receipts.rec_vat')
+            ->orderBy('receipts.id',$sort)
+            ->paginate($perpage);
 
-        return response()->json($doccat);
+        } else {
+            $rec = Receipt::join('users','receipts.user_id','=','users.id')
+            // join receipt_list sum price
+            ->join('receipt_lists','receipts.rec_id','=','receipt_lists.rec_id')
+            // ->select('receipts.*','users.user_name as user_name',\DB::raw('SUM(receipt_lists.price*receipt_lists.qty) as total_price'))
+            ->select('receipts.*','users.user_name as user_name',\DB::raw('IF(receipts.rec_vat = 1, SUM(receipt_lists.price*receipt_lists.qty)+((SUM(receipt_lists.price*receipt_lists.qty)*7)/100), SUM(receipt_lists.price*receipt_lists.qty)) as total_price'))
+    
+            // ->where('name','LIKE',"%{$search}%")
+            // ->select('receipts.*','users.user_name as user_name')
+            ->where('receipts.status','LIKE',"%{$status}%")
+            ->where(
+                function($query) use ($search){
+                    $query->where('receipts.rec_id','LIKE',"%{$search}%")
+                    ->orWhere('receipts.customer_name','LIKE',"%{$search}%")
+                    ->orWhere('receipts.customer_tel','LIKE',"%{$search}%");
+                    // ->orWhere('doc_works.status','LIKE',"%{$status}%")
+                    // ->orWhere('doc_works.doc_cat','LIKE',"%{$doc_cat}%");
+                }
+            )
+            // group by all column
+            // ->groupBy('receipts.rec_id', 'receipts.user_id', 'users.user_name')
+            // if receipt rec_vat = 1 then total_price = total_price + (total_price*7)/100 else total_price
+            // ->addSelect(\DB::raw('IF(receipts.rec_vat = 1, SUM(receipt_lists.price*receipt_lists.qty)+((SUM(receipt_lists.price*receipt_lists.qty)*7)/100), SUM(receipt_lists.price*receipt_lists.qty)) as total_price'))
+            ->where('receipts.user_id',$user_id)
+            // what group by
+            ->groupBy('receipts.rec_id','receipts.id','receipts.doc_work_id','receipts.customer_name','receipts.customer_tel','receipts.customer_id','receipts.status','receipts.created_at','receipts.updated_at','receipts.user_id','users.user_name','receipts.quo_id','receipts.customer_address','receipts.rec_discount','receipts.rec_vat')
+            ->orderBy('receipts.id',$sort)
+            ->paginate($perpage);
+        }
+
+       
+
+        return response()->json($rec);
 
     }
 
     public function add(Request $request){
+
+        if(checkRoles('REC_ACC_EDIT')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
 
         try {
 
@@ -108,6 +173,16 @@ class ReceiptController extends Controller
 
     public function edit($id){
 
+        if(checkRoles('REC_ACC_EDIT')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
+
         $rec = Receipt::find($id);
         // get rec_id from rec
         // $rec_id = $rec->rec_id;
@@ -126,6 +201,16 @@ class ReceiptController extends Controller
     }
 
     public function update($id,Request $request){
+
+        if(checkRoles('REC_ACC_EDIT')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
 
         try {
             $user_id = JWTAuth::parseToken()->authenticate()->id;
@@ -219,7 +304,7 @@ class ReceiptController extends Controller
                     $tran->tran_id = $tran_id;
                     $tran->tran_type = 'income';
                     $tran->rec_id = $rec->rec_id;
-                    $tran->tran_details = 'ການຊຳລະຂໍ້ມູນບິນ:'.$rec->rec_id;
+                    $tran->tran_details = 'ການຊຳລະ ບິນ:'.$rec->rec_id;
                     // $tran->currency_payed = 'LAK';
                     $tran->currency = 'LAK';
                     // check PayBy
@@ -318,7 +403,12 @@ class ReceiptController extends Controller
                     $tran->rec_id = $rec->rec_id;
                     $tran->tran_details = 'ສ່ວນຫຼຸດ ບິນ:'.$rec->rec_id;
                     $tran->currency = 'LAK';
-                    $tran->bank_id = 0;
+                     // check PayBy
+                     if($request->pay_setting['PayBy'] == 'bank'){
+                        $tran->bank_id = $request->pay_setting['PayBy'];
+                    } else {
+                        $tran->bank_id = 0;
+                    }
                     $tran->rate = 1;
                     $tran->price = $form_discount;
                     $tran->tran_date = date('Y-m-d');
@@ -352,7 +442,7 @@ class ReceiptController extends Controller
                         $tran->rec_id = $rec->rec_id;
                         $tran->tran_details = 'ອມພ ບິນ:'.$rec->rec_id;
                         $tran->currency = 'LAK';
-                        $tran->bank_id = 0;
+                        $tran->bank_id = null;
                         $tran->rate = 1;
                         $tran->price = $vat_price;
                         $tran->tran_date = date('Y-m-d');
@@ -401,6 +491,16 @@ class ReceiptController extends Controller
 
     public function delete($id){
 
+        if(checkRoles('REC_ACC_DEL')==false){
+            $success = false;
+            $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
+
             try {
 
                 $rec = Receipt::find($id);
@@ -431,5 +531,96 @@ class ReceiptController extends Controller
         return response()->json($response);
 
         }
+
+        public function print80($id){
+
+            $rec = Receipt::join('users','receipts.user_id','=','users.id')
+            ->select('receipts.*','users.user_name as user_name')
+            ->where('receipts.rec_id',$id)->first();
+            $rec_list = ReceiptList::where('rec_id',$id)->get();
+
+            $setting = Setting::first();
+            // return $rec->created_at;
+
+            $date = explode(' ',$rec->created_at);
+            $new_date =  explode('-',$date[0]);
+            $tr_date = $new_date[2].'/'.$new_date[1].'/'.$new_date[0];
+
+            // get customer payed from transection
+            $payed = Transection::where(['rec_id'=>$id,'fn'=>'REC'])->sum('price');
+            // get cash back from transection
+            $cash_back = Transection::where(['rec_id'=>$id,'fn'=>'PB'])->sum('price');
+
+
+            return view('80')
+            ->with('setting',$setting)
+            ->with('customer_payed',$payed)
+            ->with('cash_back',$cash_back)
+            ->with('date',$tr_date)
+            ->with('time',$date[1])
+            ->with('id',$id)
+            ->with('rec',$rec)
+            ->with('rec_list',$rec_list);
+        }
+
+        public function printa4($id){
+
+            $rec = Receipt::join('users','receipts.user_id','=','users.id')
+            ->select('receipts.*','users.user_name as user_name')
+            ->where('receipts.rec_id',$id)->first();
+            $rec_list = ReceiptList::where('rec_id',$id)->get();
+            $setting = Setting::first();
+            // return $rec->created_at;
+
+            $date = explode(' ',$rec->created_at);
+            $new_date =  explode('-',$date[0]);
+            $tr_date = $new_date[2].'/'.$new_date[1].'/'.$new_date[0];
+
+            // get customer payed from transection
+            $payed = Transection::where(['rec_id'=>$id,'fn'=>'REC'])->sum('price');
+            // get cash back from transection
+            $cash_back = Transection::where(['rec_id'=>$id,'fn'=>'PB'])->sum('price');
+
+
+            return view('a4')
+            ->with('setting',$setting)
+            ->with('customer_payed',$payed)
+            ->with('cash_back',$cash_back)
+            ->with('date',$tr_date)
+            ->with('time',$date[1])
+            ->with('id',$id)
+            ->with('rec',$rec)
+            ->with('rec_list',$rec_list);
+        }
+
+        public function printquo($id){
+
+            $rec = Receipt::join('users','receipts.user_id','=','users.id')
+            ->select('receipts.*','users.user_name as user_name')
+            ->where('receipts.rec_id',$id)->first();
+            $rec_list = ReceiptList::where('rec_id',$id)->get();
+            $setting = Setting::first();
+            // return $rec->created_at;
+
+            $date = explode(' ',$rec->created_at);
+            $new_date =  explode('-',$date[0]);
+            $tr_date = $new_date[2].'/'.$new_date[1].'/'.$new_date[0];
+
+            // get customer payed from transection
+            $payed = Transection::where(['rec_id'=>$id,'fn'=>'REC'])->sum('price');
+            // get cash back from transection
+            $cash_back = Transection::where(['rec_id'=>$id,'fn'=>'PB'])->sum('price');
+
+
+            return view('quo')
+            ->with('setting',$setting)
+            ->with('customer_payed',$payed)
+            ->with('cash_back',$cash_back)
+            ->with('date',$tr_date)
+            ->with('time',$date[1])
+            ->with('id',$id)
+            ->with('rec',$rec)
+            ->with('rec_list',$rec_list);
+            }
 
 }

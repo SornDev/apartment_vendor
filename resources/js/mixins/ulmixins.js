@@ -1,7 +1,7 @@
 
 import moment from 'moment'
 import axios from 'axios'
-import { useStore } from '../store/auth'
+import { useStore } from '../Store/auth'
 
 export default{
     data(){
@@ -77,21 +77,10 @@ export default{
           async AddData(url,data,result,noti){
                 if(data){
                     this.loading_post = true
+                    try{
                     const response = await axios.post(`${this.baseURL}/api/${url}`, data);
                     // if error auth by status code 401
-                    if(response.status == 401){
-                        // remove all data pinia and localstorage
-                        const store = useStore()
-                        store.remove_token()
-                        store.remove_user()
-                        store.remove_permissions()
-                        localStorage.removeItem('token')
-                        localStorage.removeItem('user')
-                        localStorage.removeItem('permissions')
-                        // redirect to login
-                        this.$router.push({name:'login'})
-
-                    }
+                
                     if(response.data.success){
                         this.loading_post = false
                         result(response.data)
@@ -117,9 +106,31 @@ export default{
                             timer: 3500,
                           });
                     }
+
+
+                } catch (error) {
+                    if(error.response.status == 401){
+                        // remove all data pinia and localstorage
+                        const store = useStore()
+                        store.remove_token()
+                        store.remove_user()
+                        store.remove_permissions()
+                        store.remove_setting()
+                        localStorage.removeItem('token')
+                        localStorage.removeItem('user')
+                        localStorage.removeItem('permissions')
+                        localStorage.removeItem('setting')
+                        // redirect to login
+                        this.$router.push({name:'login'})
+                    }
+                }
+
+
                 } else {
                     this.loading_post = true
+                    try{
                     const response = await axios.post(`${this.baseURL}/api/${url}`, {});
+                    
                     if(response.data.success){
                         this.loading_post = false
                         result(response.data)
@@ -143,49 +154,90 @@ export default{
                             timer: 3500,
                           });
                     }
+                } catch (error) {
+                    if(error.response.status == 401){
+                        // remove all data pinia and localstorage
+                        const store = useStore()
+                        store.remove_token()
+                        store.remove_user()
+                        store.remove_permissions()
+                        store.remove_setting()
+                        localStorage.removeItem('token')
+                        localStorage.removeItem('user')
+                        localStorage.removeItem('permissions')
+                        localStorage.removeItem('setting')
+                        // redirect to login
+                        this.$router.push({name:'login'})
+                    }
+                }
                 }
           },
           async EditData(url,id,result){
                 // this.loading_post = true
                 this.EditID = id
+                try{
                 const response = await axios.get(`${this.baseURL}/api/${url}/${id}`);
-                if(response.status == 401){
+                    
+                 
+                if(response.data.success==false){
+                    this.$swal.fire({
+                    toast: true,
+                    position: "top-end",
+                    icon: "error",
+                    title: response.data.message,
+                    showConfirmButton: false,
+                    timer: 3500,
+                  });
+                }
+
+                result(response.data)
+
+                } catch (error) {
+                if(error.response.status == 401){
                     // remove all data pinia and localstorage
                     const store = useStore()
                     store.remove_token()
                     store.remove_user()
                     store.remove_permissions()
+                    store.remove_setting()
                     localStorage.removeItem('token')
                     localStorage.removeItem('user')
                     localStorage.removeItem('permissions')
+                    localStorage.removeItem('setting')
                     // redirect to login
                     this.$router.push({name:'login'})
-                    
                 }
+            }
                
-                    result(response.data)
+                    
                
 
           },
           async CopyData(url,id,result){
             // this.loading_post = true
+            try{
             const response = await axios.get(`${this.baseURL}/api/${url}/${id}`);
-            if(response.status == 401){
+        
+        result(response.data)
+        } catch (error) {
+            if(error.response.status == 401){
                 // remove all data pinia and localstorage
                 const store = useStore()
                 store.remove_token()
                 store.remove_user()
                 store.remove_permissions()
+                store.remove_setting()
                 localStorage.removeItem('token')
                 localStorage.removeItem('user')
                 localStorage.removeItem('permissions')
+                localStorage.removeItem('setting')
                 // redirect to login
                 this.$router.push({name:'login'})
-                
             }
+        }
             // if(response.data.success){
                 // this.loading_post = false
-                result(response.data)
+                
             // }else{
             //     // this.loading_post = false
             //     result(response.data)
@@ -203,20 +255,12 @@ export default{
           async UpdateData(url,data,result){
                 if(data){
                     this.loading_post = true
+                    try{
                     const response = await axios.post(`${this.baseURL}/api/${url}`, data);
-                    if(response.status == 401){
-                        // remove all data pinia and localstorage
-                        const store = useStore()
-                        store.remove_token()
-                        store.remove_user()
-                        store.remove_permissions()
-                        localStorage.removeItem('token')
-                        localStorage.removeItem('user')
-                        localStorage.removeItem('permissions')
-                        // redirect to login
-                        this.$router.push({name:'login'})
-                        
-                    }
+                    // console.log(response)
+                    
+                
+
                     if(response.data.success){
                         this.loading_post = false
                         result(response.data)
@@ -240,6 +284,23 @@ export default{
                             timer: 3500,
                           });
                     }
+                } catch (error) {
+                    // console.log(error)
+                    if(error.response.status == 401){
+                        // remove all data pinia and localstorage
+                        const store = useStore()
+                        store.remove_token()
+                        store.remove_user()
+                        store.remove_permissions()
+                        store.remove_setting()
+                        localStorage.removeItem('token')
+                        localStorage.removeItem('user')
+                        localStorage.removeItem('permissions')
+                        localStorage.removeItem('setting')
+                        // redirect to login
+                        this.$router.push({name:'login'})
+                    }
+                }
                 } else {
                     this.loading_post = false
                     result({status:'error',message:'data not found'})
@@ -261,20 +322,10 @@ export default{
                     if (res.isConfirmed)  {
                         
                         this.loading_post = true
+                        try{
                         const response = await axios.delete(`${this.baseURL}/api/${url}/${id}`);
-                        if(response.status == 401){
-                            // remove all data pinia and localstorage
-                            const store = useStore()
-                            store.remove_token()
-                            store.remove_user()
-                            store.remove_permissions()
-                            localStorage.removeItem('token')
-                            localStorage.removeItem('user')
-                            localStorage.removeItem('permissions')
-                            // redirect to login
-                            this.$router.push({name:'login'})
-                            
-                        }
+                       
+                        
                         if(response.data.success){
                             this.loading_post = false
                             result(response.data)
@@ -298,6 +349,23 @@ export default{
                                 timer: 3500,
                               });
                         }
+
+                    } catch (error) {
+                        if(error.response.status == 401){
+                            // remove all data pinia and localstorage
+                            const store = useStore()
+                            store.remove_token()
+                            store.remove_user()
+                            store.remove_permissions()
+                            store.remove_setting()
+                            localStorage.removeItem('token')
+                            localStorage.removeItem('user')
+                            localStorage.removeItem('permissions')
+                            localStorage.removeItem('setting')
+                            // redirect to login
+                            this.$router.push({name:'login'})
+                        }
+                    }
                     }
                 })
 
@@ -306,42 +374,70 @@ export default{
           },
           async GetData(url,result){
                 this.loading_table = true
+                try {
                 const response = await axios.get(`${this.baseURL}/api/${url}`);
-                if(response.status == 401){
+                this.loading_table = false
+                
+
+                if(response.data.success==false){
+                    this.$swal.fire({
+                    toast: true,
+                    position: "top-end",
+                    icon: "error",
+                    title: response.data.message,
+                    showConfirmButton: false,
+                    timer: 3500,
+                  });
+                }
+
+                result(response.data)
+
+            } catch (error) {
+                
+                if(error.response.status == 401){
+                    
                     // remove all data pinia and localstorage
                     const store = useStore()
                     store.remove_token()
                     store.remove_user()
                     store.remove_permissions()
+                    store.remove_setting()
                     localStorage.removeItem('token')
                     localStorage.removeItem('user')
                     localStorage.removeItem('permissions')
+                    localStorage.removeItem('setting')
                     // redirect to login
                     this.$router.push({name:'login'})
-                    
                 }
+            }
                 // console.log(response)
-                    this.loading_table = false
-                    result(response.data)
+                  
           },
           async GetDataPost(url,data,result){
             this.loading_table = true
-            const response = await axios.post(`${this.baseURL}/api/${url}`, data);
-            if(response.status == 401){
-                // remove all data pinia and localstorage
-                const store = useStore()
-                store.remove_token()
-                store.remove_user()
-                store.remove_permissions()
-                localStorage.removeItem('token')
-                localStorage.removeItem('user')
-                localStorage.removeItem('permissions')
-                // redirect to login
-                this.$router.push({name:'login'})
-                
-            }
+            try {
+                const response = await axios.post(`${this.baseURL}/api/${url}`, data);
                 this.loading_table = false
                 result(response.data)
+                
+            } catch (error) {
+                if(error.response.status == 401){
+                    // remove all data pinia and localstorage
+                    const store = useStore()
+                    store.remove_token()
+                    store.remove_user()
+                    store.remove_permissions()
+                    store.remove_setting()
+                    localStorage.removeItem('token')
+                    localStorage.removeItem('user')
+                    localStorage.removeItem('permissions')
+                    localStorage.removeItem('setting')
+                    // redirect to login
+                    this.$router.push({name:'login'})
+                }
+            }
+            
+               
       },
     }
 }

@@ -1,10 +1,14 @@
 <template>
-    <div>
-        <h1>Dashboard</h1>
-    </div>
+    
+<DashTop />
+
+<DashTran />
+
 </template>
 
 <script>
+import DashTop from '../Components/DashBoard/DashTop.vue'
+import DashTran from '../Components/DashBoard/DashTran.vue'
 export default {
     name: 'DmsDashboard',
 
@@ -12,6 +16,9 @@ export default {
         return {
             
         };
+    },
+    components: {
+        DashTop, DashTran
     },
 
     mounted() {

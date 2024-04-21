@@ -59,10 +59,10 @@
         <!-- Search -->
         <div class="navbar-nav align-items-center">
           <div class="nav-item navbar-search-wrapper mb-0">
-            <a class="nav-item nav-link search-toggler px-0" href="javascript:void(0);">
+            <!-- <a class="nav-item nav-link search-toggler px-0" href="javascript:void(0);">
               <i class="bx bx-search bx-sm"></i>
               <span class="d-none d-md-inline-block text-muted">Search (Ctrl+/)</span>
-            </a>
+            </a> -->
           </div>
         </div>
         <!-- /Search -->
@@ -77,7 +77,7 @@
           
 
           <!-- Language -->
-          <li class="nav-item dropdown-language dropdown me-2 me-xl-0">
+          <!-- <li class="nav-item dropdown-language dropdown me-2 me-xl-0">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
               <i class='bx bx-globe bx-sm'></i>
             </a>
@@ -103,11 +103,11 @@
                 </a>
               </li>
             </ul>
-          </li>
+          </li> -->
           <!-- /Language -->
 
           <!-- Quick links  -->
-          <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
+          <!-- <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
               <i class='bx bx-grid-alt bx-sm'></i>
             </a>
@@ -185,7 +185,7 @@
                 </div>
               </div>
             </div>
-          </li>
+          </li> -->
           <!-- Quick links -->
 
           
@@ -403,8 +403,9 @@
           <!-- User -->
           <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-              <div class="avatar avatar-online">
-                <img :src=" url + '/assets/img/avatars/1.png'" alt="" class="w-px-40 h-auto rounded-circle">
+              <div class="avatar avatar-online"> 
+                <img :src=" url + '/assets/img/'+ JSON.parse(store.get_user).image" v-if="JSON.parse(store.get_user).image" alt="" class="w-px-40 h-auto rounded-circle">
+                <img :src=" url + '/assets/img/no-img.jpeg'" v-else alt="" class="w-px-40 h-auto rounded-circle">
               </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -413,17 +414,18 @@
                   <div class="d-flex">
                     <div class="flex-shrink-0 me-3">
                       <div class="avatar avatar-online">
-                        <img :src=" url + '/assets/img/avatars/1.png'" alt="" class="w-px-40 h-auto rounded-circle">
+                        <img :src=" url + '/assets/img/'+ JSON.parse(store.get_user).image" v-if="JSON.parse(store.get_user).image" alt="" class="w-px-40 h-auto rounded-circle">
+                        <img :src=" url + '/assets/img/no-img.jpeg'" alt="" v-else class="w-px-40 h-auto rounded-circle">
                       </div>
                     </div>
                     <div class="flex-grow-1">
-                      <span class="fw-medium d-block">John Doe</span>
-                      <small class="text-muted">Admin</small>
+                      <span class="fw-medium d-block">{{JSON.parse(store.get_user).name}}</span>
+                      <small class="text-muted">{{JSON.parse(store.get_user).user_name}}</small>
                     </div>
                   </div>
                 </a>
               </li>
-              <li>
+              <!-- <li>
                 <div class="dropdown-divider"></div>
               </li>
               <li>
@@ -464,7 +466,7 @@
               </li>
               <li>
                 <div class="dropdown-divider"></div>
-              </li>
+              </li> -->
               <li>
                 <a class="dropdown-item" @click="logout()" href="javascript:void(0)" >
                   <i class="bx bx-power-off me-2"></i>
@@ -512,13 +514,14 @@
 
 <!-- Footer -->
 <footer class="content-footer footer bg-footer-theme" v-if="store.get_token">
+ 
   <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
     <div class="mb-2 mb-md-0">
-    DMS V 1.0
+    DMS V 1.1
     </div>
     <div class="d-none d-lg-inline-block">
       
-      ພັດທະນາໂດຍ: SornDev Softwate Development
+      ພັດທະນາໂດຍ: ບໍລິສັດ ສອນເດບ ພັດທະນາຊ໊ອບແວ ຈຳກັດຜູ້ດຽວ
       
     </div>
   </div>
@@ -573,13 +576,20 @@ export default {
         logout(){
             axios.get('api/logout',{ headers:{ Authorization: 'Bearer '+this.store.get_token } }).then((res)=>{
                 if(res.data.success){
+
+                  // ໄປໜ້າ login
+                  this.$router.push('/login');
+                  
                   // ເຄຼຍຂໍ້ມູນ ໃນ localstorage ແລະ pinia
                   localStorage.removeItem('web_token');
                   localStorage.removeItem('web_user');
+                  localStorage.removeItem('web_permission');
+                  localStorage.removeItem('web_setting');
                   this.store.remove_token();
                   this.store.remove_user();
-                  // ໄປໜ້າ login
-                  this.$router.push('/login');
+                  this.store.remove_permissions();
+                  this.store.remove_setting();
+                  
                 }
             }).catch((error)=>{
               console.log(error)

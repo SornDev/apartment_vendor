@@ -28,11 +28,22 @@ class UserController extends Controller
         ];
 
         $token = JWTAUTH::attempt($user_login); // ກວດຊອບ ອີເມວລ໌ ແລະ ລະຫັດຜ່ານ ແລ້ວສ້າງ token ຂື້ນມາ
-        $user = Auth::user(); // ຫຼັງຈາກ login ສຳເລັດແມ່ນ ດຶງຂໍ້ມູນ User ທີ່ login ອອກມາ
-        $permissions = Roles::where('id',$user->roles)->first(); // ດຶງຂໍ້ມູນສິດທິທີ່ມີຢູ່
-        $setting = Setting::first(); // ດຶງຂໍ້ມູນຕັ້ງຄ່າທີ່ມີຢູ່
+        
 
         if($token){
+            $user = Auth::user(); // ຫຼັງຈາກ login ສຳເລັດແມ່ນ ດຶງຂໍ້ມູນ User ທີ່ login ອອກມາ
+            $permissions = Roles::where('id',$user->roles)->first(); // ດຶງຂໍ້ມູນສິດທິທີ່ມີຢູ່
+            $setting = Setting::first(); // ດຶງຂໍ້ມູນຕັ້ງຄ່າທີ່ມີຢູ່
+
+            // check user status
+            if($user->status == 'disable'){
+                $message = 'ຜູ້ໃຊ້ນີ້: "'.$user->user_name.'" ຖືກປິດການໃຊ້ງານ!';
+                return response()->json([
+                    'success' => false,
+                    'message' => $message ,
+                ]);
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'ສຳເລັດ!',

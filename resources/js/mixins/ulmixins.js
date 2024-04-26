@@ -109,6 +109,7 @@ export default{
 
 
                 } catch (error) {
+                    console.log(error)
                     if(error.response.status == 401){
                         // remove all data pinia and localstorage
                         const store = useStore()
@@ -419,6 +420,18 @@ export default{
                 const response = await axios.post(`${this.baseURL}/api/${url}`, data);
                 this.loading_table = false
                 result(response.data)
+
+                if(response.data.success==false){
+                    this.$swal.fire({
+                    toast: true,
+                    position: "top-end",
+                    icon: "error",
+                    title: response.data.message,
+                    showConfirmButton: false,
+                    timer: 3500,
+                  });
+                }
+                
                 
             } catch (error) {
                 if(error.response.status == 401){

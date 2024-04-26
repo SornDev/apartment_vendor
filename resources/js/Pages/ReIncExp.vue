@@ -2,7 +2,13 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-4">
-            <h5 class="card-header">ລາຍງານ ລາຍຮັບ-ລາຍຈ່າຍ</h5>
+            <div class="card-header d-flex">
+                    <h5 class="mb-0">ລາຍງານ ລາຍຮັບ-ລາຍຈ່າຍ</h5>
+                    <div v-if="loading_table"  class="spinner-grow spinner-grow-sm text-warning ms-2" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+            </div>
+            
             <div class="card-body">
                 <div>
                     <div class="input-group" style="width:240px">

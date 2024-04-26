@@ -1,25 +1,13 @@
 {
-  "_flatpickr-!~{00l}~.js": {
+  "_flatpickr-!~{00h}~.js": {
     "file": "assets/flatpickr-u7NwRpZn.css",
-    "src": "_flatpickr-!~{00l}~.js"
+    "src": "_flatpickr-!~{00h}~.js"
   },
-  "_flatpickr-tehUNNhR.js": {
+  "_flatpickr-qY4YnpEw.js": {
     "css": [
       "assets/flatpickr-u7NwRpZn.css"
     ],
-    "file": "assets/flatpickr-tehUNNhR.js",
-    "imports": [
-      "resources/js/app.js"
-    ]
-  },
-  "_index-YFxrcPsI.js": {
-    "file": "assets/index-YFxrcPsI.js",
-    "imports": [
-      "resources/js/app.js"
-    ]
-  },
-  "_ulmixins-3GuYya29.js": {
-    "file": "assets/ulmixins-3GuYya29.js",
+    "file": "assets/flatpickr-qY4YnpEw.js",
     "imports": [
       "resources/js/app.js"
     ]
@@ -30,44 +18,24 @@
     "src": "resources/css/app.css"
   },
   "resources/js/Pages/Acc.vue": {
-    "file": "assets/Acc-ZnafxHLa.js",
+    "file": "assets/Acc-e60Vq-iW.js",
     "imports": [
-      "_ulmixins-3GuYya29.js",
-      "_flatpickr-tehUNNhR.js",
-      "resources/js/app.js"
+      "resources/js/app.js",
+      "_flatpickr-qY4YnpEw.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Acc.vue"
   },
   "resources/js/Pages/Cus.vue": {
-    "file": "assets/Cus-RlC_gcg_.js",
+    "file": "assets/Cus-wwxAOySL.js",
     "imports": [
-      "_ulmixins-3GuYya29.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Cus.vue"
   },
-  "resources/js/Pages/Dashboard.vue": {
-    "file": "assets/Dashboard-4NnC-pI9.js",
-    "imports": [
-      "_ulmixins-3GuYya29.js",
-      "resources/js/app.js",
-      "_index-YFxrcPsI.js"
-    ],
-    "isDynamicEntry": true,
-    "src": "resources/js/Pages/Dashboard.vue"
-  },
-  "resources/js/Pages/Login.vue": {
-    "file": "assets/Login-25COtBzV.js",
-    "imports": [
-      "resources/js/app.js"
-    ],
-    "isDynamicEntry": true,
-    "src": "resources/js/Pages/Login.vue"
-  },
   "resources/js/Pages/No_page.vue": {
-    "file": "assets/No_page--3sjOFFA.js",
+    "file": "assets/No_page-4TUIGs_G.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -76,11 +44,10 @@
   },
   "resources/js/Pages/PreDoc.vue": {
     "css": [
-      "assets/PreDoc-6PAmFmu6.css"
+      "assets/PreDoc-eQVd6qdt.css"
     ],
-    "file": "assets/PreDoc-xcG60W7e.js",
+    "file": "assets/PreDoc-8mrhN_EC.js",
     "imports": [
-      "_ulmixins-3GuYya29.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
@@ -90,16 +57,15 @@
     "css": [
       "assets/PreDocMg-u9NSu7e4.css"
     ],
-    "file": "assets/PreDocMg-Oklxn_tt.js",
+    "file": "assets/PreDocMg-GytWRj51.js",
     "imports": [
-      "_ulmixins-3GuYya29.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/PreDocMg.vue"
   },
   "resources/js/Pages/Quo.vue": {
-    "file": "assets/Quo-s4IyCIUi.js",
+    "file": "assets/Quo-mWjy5hQd.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -107,43 +73,39 @@
     "src": "resources/js/Pages/Quo.vue"
   },
   "resources/js/Pages/ReIncExp.vue": {
-    "file": "assets/ReIncExp-twJLIiWC.js",
+    "file": "assets/ReIncExp-1Jon8u-B.js",
     "imports": [
-      "_index-YFxrcPsI.js",
-      "_ulmixins-3GuYya29.js",
-      "_flatpickr-tehUNNhR.js",
-      "resources/js/app.js"
+      "resources/js/app.js",
+      "_flatpickr-qY4YnpEw.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/ReIncExp.vue"
   },
   "resources/js/Pages/ReRev.vue": {
     "css": [
-      "assets/ReRev-63eIQouW.css"
+      "assets/ReRev-ZibTQUd0.css"
     ],
-    "file": "assets/ReRev--Qn1VLxU.js",
+    "file": "assets/ReRev-93MUIFh6.js",
     "imports": [
-      "_ulmixins-3GuYya29.js",
-      "_flatpickr-tehUNNhR.js",
-      "resources/js/app.js"
+      "resources/js/app.js",
+      "_flatpickr-qY4YnpEw.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/ReRev.vue"
   },
   "resources/js/Pages/Rec.vue": {
     "css": [
-      "assets/Rec-Qxp2QxXT.css"
+      "assets/Rec-qV001868.css"
     ],
-    "file": "assets/Rec-BKyc8q6C.js",
+    "file": "assets/Rec-dd9g4BHQ.js",
     "imports": [
-      "_ulmixins-3GuYya29.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Rec.vue"
   },
   "resources/js/Pages/Register.vue": {
-    "file": "assets/Register-GiliqKnt.js",
+    "file": "assets/Register-orWpLg2Q.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -152,11 +114,10 @@
   },
   "resources/js/Pages/Setting.vue": {
     "css": [
-      "assets/Setting-XkrlthKA.css"
+      "assets/Setting-IULEYIQB.css"
     ],
-    "file": "assets/Setting-aMoxbMjt.js",
+    "file": "assets/Setting-lE1H_Z3T.js",
     "imports": [
-      "_ulmixins-3GuYya29.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
@@ -164,11 +125,10 @@
   },
   "resources/js/Pages/TranDoc.vue": {
     "css": [
-      "assets/TranDoc-W-5v6fNE.css"
+      "assets/TranDoc-1FsVRBJ4.css"
     ],
-    "file": "assets/TranDoc-Xwz4ADcV.js",
+    "file": "assets/TranDoc-SqoC_cr_.js",
     "imports": [
-      "_ulmixins-3GuYya29.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
@@ -176,20 +136,18 @@
   },
   "resources/js/Pages/UserMg.vue": {
     "css": [
-      "assets/UserMg-Lgxd0LBF.css"
+      "assets/UserMg-Voy5adZl.css"
     ],
-    "file": "assets/UserMg-IOpvvAQP.js",
+    "file": "assets/UserMg-rv4nLj3I.js",
     "imports": [
-      "_ulmixins-3GuYya29.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/UserMg.vue"
   },
   "resources/js/Pages/UserPer.vue": {
-    "file": "assets/UserPer-cSVl6ReN.js",
+    "file": "assets/UserPer-7dyhO8S5.js",
     "imports": [
-      "_ulmixins-3GuYya29.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
@@ -197,11 +155,9 @@
   },
   "resources/js/app.js": {
     "css": [
-      "assets/app-fekbporD.css"
+      "assets/app-S2Ejq0eK.css"
     ],
     "dynamicImports": [
-      "resources/js/Pages/Dashboard.vue",
-      "resources/js/Pages/Login.vue",
       "resources/js/Pages/Register.vue",
       "resources/js/Pages/PreDoc.vue",
       "resources/js/Pages/TranDoc.vue",
@@ -217,7 +173,7 @@
       "resources/js/Pages/ReRev.vue",
       "resources/js/Pages/No_page.vue"
     ],
-    "file": "assets/app-R5zms-zh.js",
+    "file": "assets/app-_hB8Ak0D.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }

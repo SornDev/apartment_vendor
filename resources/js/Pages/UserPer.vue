@@ -6,7 +6,13 @@
                 
                 <div class="card-body" style="position: relative;">
                    
-                        <h5 class="card-title">ປະເພດຜູ້ໃຊ້</h5>
+                        
+                        <div class="card-title d-flex">
+                                <h5 class="mb-0">ປະເພດຜູ້ໃຊ້</h5>
+                                <div v-if="loading_table"  class="spinner-grow spinner-grow-sm text-warning ms-2" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                        </div>
                         <button
                         @click="AddRole()"
                             type="button"

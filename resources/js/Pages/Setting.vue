@@ -3,7 +3,13 @@
         <div class="col-md-8">
             <div class="card card-action mb-4">
                 <div class="card-header align-items-center">
-                    <h5 class="card-action-title mb-0">ຕັ້ງຄ່າລະບົບ </h5>
+                    <div class="card-action-title mb-0 d-flex">
+                            <h5 class="mb-0">ຕັ້ງຄ່າລະບົບ </h5>
+                        <div v-if="loading_table"  class="spinner-grow spinner-grow-sm text-warning ms-2" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    
                     <div class="card-action-element">
                     <button class="btn btn-primary btn-md " type="button" @click="UpdateDataSetting()" >ບັນທຶກ</button>
                     </div>

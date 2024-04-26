@@ -70,7 +70,7 @@
                 @endif
                 <span class="fs-6"> <strong> {{$setting->company_name}}</strong> </span><br>
                 
-                ອີເມວລ໌: {{$setting->company_tel}}, 
+                ອີເມວລ໌: {{$setting->company_email}}, 
                 ເບີໂທ: {{$setting->company_tel}}<br>
                 ທີ່ຢູ່: {{$setting->company_address}}
 
@@ -143,20 +143,29 @@
         </div>
         <div class="">
         <table style="width:100%">
+        @if($customer_payed>0)
+        @php($total -= $customer_payed)
             <tr>
-                <td colspan="2" style="font-size: 12px; font-weight: bold;"  class="text-end">ຍອດຊຳລະ ເງິນກີບ</td>
-                <td style="font-size: 12px; font-weight: bold;" width="90" class="text-end">{{number_format($total, 0, ',', '.')}} ₭</td>
+                <td colspan="2" style="font-size: 12px; font-weight: bold;"  class="text-end">ຊຳລະແລ້ວ</td>
+                <td style="font-size: 12px; font-weight: bold;" width="90" class="text-end">{{number_format($customer_payed, 0, ',', '.')}} </td>
             </tr>
+        @endif
+        @if($total>0)
+            <tr>
+                <td colspan="2" style="font-size: 12px; font-weight: bold;"  class="text-end">ຍອດຕ້ອງຊຳລະ</td>
+                <td style="font-size: 12px; font-weight: bold;" width="90" class="text-end">{{number_format($total, 0, ',', '.')}} </td>
+            </tr>
+            @endif
         </table>
         </div>
         <div class="text-start pt-1 pb-1">
            
         @if($customer_payed>0)
-                                                <div> ຮັບເງິນກີບ: {{number_format($customer_payed, 0, ',', '.')}} ₭</div>
+                                                <div> ຮັບເງິນກີບ: {{number_format($customer_payed, 0, ',', '.')}} </div>
                                             @endif
-                
-                                                ເງິນທອນ: {{number_format($cash_back, 0, ',', '.')}} ₭ 
-                                               
+                                                @if($cash_back>0)
+                                                ເງິນທອນ: {{number_format($cash_back, 0, ',', '.')}}  
+                                                @endif
           
         </div>
         <div class="text-center p-2">

@@ -223,7 +223,7 @@ class ReceiptController extends Controller
             $rec->customer_tel = $request->rec_form['customer_tel'];
             $rec->customer_address = $request->rec_form['customer_address'];
             $rec->rec_discount = $form_discount;
-            $rec->rec_vat = $request->pay_setting['rec_vat']=='true'?1:0;
+            $rec->rec_vat = $request->pay_setting['rec_vat'];
             $rec->save();
 
             // check if rec_list_form length > 0 then delete rec_list
@@ -357,7 +357,7 @@ class ReceiptController extends Controller
             // echo $sum_rec_list_price;
             // echo '--';
             // echo $sum_tran_price;
-            if($sum_tran_price >=  $sum_rec_list_price){
+            if($sum_tran_price >=  ($sum_rec_list_price-$form_discount)){
                
                 // check vat  
                 if($request->pay_setting['rec_vat'] == 'true'){

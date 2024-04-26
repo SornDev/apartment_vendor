@@ -152,9 +152,17 @@
             font-size: 15px; */
         }
         .center {
-  margin-left: auto;
-  margin-right: auto;
-}
+        margin-left: auto;
+        margin-right: auto;
+        }
+    .maindiv{
+        position: relative;
+    }
+    .boxinfo{
+        position: absolute;
+        margin-top:-40px;
+        left: 20px;
+    }
     </style>
 </head>
 
@@ -164,8 +172,8 @@
         <span class="fs-2 fw-bold">ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</span><br>
         <span class="fs-2 fw-bold">ສັນຕິພາບ ເອກະພາບ ປະຊາທິປະໄຕ ເອກະພາບ ວັດຖະນະຖາວອນ</span>
     </div>
-    <div class="mt-2">
-        <div>
+    <div class="mt-2 maindiv">
+        <div class="boxinfo">
             @if($Setting->company_logo)
             <img src="{{public_path('assets/img/'.$Setting->company_logo)}}" style="width: 120px;"><br>
             @endif
@@ -176,7 +184,7 @@
             ທີ່ຢູ່: {{ $Setting->company_address }}
             </span>
         </div>
-                    <div class="text-center mt-0">
+                    <div class="text-center mt-3">
                     <h1>ລາຍງານ ຕິດຕາມເງິນສົດ</h1>
                     <p >
                         @if($dmy=='d')
@@ -276,7 +284,7 @@
                                                     <td class="text-end">{{number_format($sum_income, 0, ',', '.')}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="text-end">ເກີດຂື້ນຮັບອອກ:</td>
+                                                    <td class="text-end">ເກີດຂື້ນຈ່າຍອອກ:</td>
                                                     <td class="text-end">{{number_format($sum_expense, 0, ',', '.')}}</td>
                                                 </tr>
                                                 <tr>
@@ -303,7 +311,7 @@
                        
                     </div>
                      </div>
-                    
+              
     <script type="text/php">
         if (isset($pdf)) {
             $text = "(ໜ້າ {PAGE_NUM} ຈາກ {PAGE_COUNT}) - ສ້າງໂດຍ: ". Auth::user()->name ." ວັນທີ່: ".date('d/m/Y ເວລາ: H:i:s');
@@ -311,9 +319,10 @@
             $font = $fontMetrics->getFont("PHETSARATHOT", "italic");
             $width = $fontMetrics->get_text_width($text, $font, $size) / 2;
             $x = ($pdf->get_width() - $width) /2;
-            $y = $pdf->get_height() - 20;
+            $y = $pdf->get_height() - 28;
             $pdf->page_text($x, $y, $text, $font, $size);
         }
     </script>
+ 
 </body>
 </html>

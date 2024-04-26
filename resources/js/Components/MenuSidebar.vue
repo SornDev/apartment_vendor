@@ -2,7 +2,7 @@
     <div>
         
 <aside id="layout-menu" @mouseover="mover()" @mouseout="mout()" class="layout-menu menu-vertical menu bg-menu-theme h-100">
-
+<PerfectScrollbar>
   
 <div class="app-brand d-flex justify-content-center mt-2">
   <router-link to="/" class="app-brand-link">
@@ -17,9 +17,12 @@
   </a> -->
   
 </div>
-<span class="app-brand-text demo menu-text fw-bold ms-2 text-center">
+<div class="text-center">
+  <span class="app-brand-text demo menu-text fw-bold ms-2 text-center">
   {{store.get_setting?JSON.parse(store.get_setting).company_name:'DMS'}}
 </span>
+</div>
+
 <div class="menu-inner-shadow"></div>
 
 <ul class="menu-inner py-1">
@@ -145,7 +148,7 @@
 
 </ul>
 
-
+</PerfectScrollbar>
 
 </aside>
     </div>

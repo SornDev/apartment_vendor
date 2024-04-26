@@ -50,7 +50,7 @@ class DocWorkController extends Controller
         ->join('receipts','doc_works.dw_id','=','receipts.doc_work_id')
         // join docworklist
         // ->join('doc_work_lists','doc_works.dw_id','=','doc_work_lists.doc_work_id')
-        ->select('doc_works.*','document_categories.name as doc_cat_name','users.user_name as user_name','receipts.status as rec_status')
+        ->select('doc_works.*','document_categories.name as doc_cat_name','users.user_name as user_name','receipts.status as rec_status','receipts.rec_id')
         ->where('doc_works.status','LIKE',"%{$status}%")
         ->where('doc_works.doc_cat','LIKE',"%{$doc_cat}%")
         ->where(
@@ -71,7 +71,7 @@ class DocWorkController extends Controller
             ->join('receipts','doc_works.dw_id','=','receipts.doc_work_id')
             // join docworklist
             // ->join('doc_work_lists','doc_works.dw_id','=','doc_work_lists.doc_work_id')
-            ->select('doc_works.*','document_categories.name as doc_cat_name','users.user_name as user_name','receipts.status as rec_status')
+            ->select('doc_works.*','document_categories.name as doc_cat_name','users.user_name as user_name','receipts.status as rec_status','receipts.rec_id')
             ->where('doc_works.status','LIKE',"%{$status}%")
             ->where('doc_works.doc_cat','LIKE',"%{$doc_cat}%")
             ->where(

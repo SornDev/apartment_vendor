@@ -1,9 +1,6 @@
 <template>
     
-  <!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
-  
+ 
   <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar  ">
   <div class="layout-container">
@@ -45,7 +42,7 @@
       
       
       <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0   d-xl-none ">
-        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)" @click="setmenu()">
           <i class="bx bx-menu bx-sm"></i>
         </a>
       </div>
@@ -216,7 +213,7 @@
           
 
           <!-- Notification -->
-          <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
+          <!-- <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
               <i class="bx bx-bell bx-sm"></i>
               <span class="badge bg-danger rounded-pill badge-notifications">5</span>
@@ -398,7 +395,7 @@
                 <button class="btn btn-primary text-uppercase w-100">view all notifications</button>
               </li>
             </ul>
-          </li>
+          </li> -->
           <!--/ Notification -->
           <!-- User -->
           <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -410,7 +407,7 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li>
-                <a class="dropdown-item" href="pages-account-settings-account.html">
+                <a class="dropdown-item" href="javascript:void(0);">
                   <div class="d-flex">
                     <div class="flex-shrink-0 me-3">
                       <div class="avatar avatar-online">
@@ -539,7 +536,7 @@
     
     
     <!-- Overlay -->
-    <div class="layout-overlay layout-menu-toggle"></div>
+    <div class="layout-overlay layout-menu-toggle" @click="setmenu()"></div>
     
     
     <!-- Drag Target Area To SlideIn Menu On Small Screens -->
@@ -563,7 +560,8 @@ export default {
     },
     data() {
         return {
-            url: window.location.origin
+            url: window.location.origin,
+            menu_status:'big',
         };
     },
 
@@ -572,6 +570,18 @@ export default {
     },
 
     methods: {
+      setmenu(){
+          // console.log(this.menu_status);
+            if(this.menu_status=='big'){
+                this.menu_status = 'small';
+                let layout = document.body;
+                layout.classList.add('light-style', 'layout-navbar-fixed', 'layout-compact', 'layout-menu-fixed', 'layout-menu-expanded');
+            } else {
+                this.menu_status = 'big';
+                let layout = document.body;
+                layout.classList.remove('light-style', 'layout-navbar-fixed', 'layout-compact', 'layout-menu-fixed', 'layout-menu-expanded');
+            }
+        },
       
         logout(){
             axios.get('api/logout',{ headers:{ Authorization: 'Bearer '+this.store.get_token } }).then((res)=>{

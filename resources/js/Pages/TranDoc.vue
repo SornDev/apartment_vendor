@@ -1,6 +1,13 @@
 <template>
     <div class="card">
-  <h5 class="card-header">ລາຍການເອກະສານ</h5>
+  
+  <div class="card-header d-flex">
+    <h5 class="mb-0" >ລາຍການເອກະສານ</h5>
+    <div v-if="loading_table"  class="spinner-grow spinner-grow-sm text-warning ms-2" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+  </div>
+  
   <div class="card-body">
     <div class="table-responsive text-nowrap">
         <div class=" d-flex justify-content-between mb-2">
@@ -70,6 +77,12 @@
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
                 <div class="dropdown-menu">
+                  <a
+                      class="dropdown-item"
+                      href="javascript:void(0);"
+                      @click="PtintBill(list.rec_id,JSON.parse(store.get_setting).printer_default)"
+                      ><i class='bx bx-printer me-1'></i> ປຼິນ</a
+                    >
                   <a class="dropdown-item" href="javascript:void(0);" @click="EditDocWork(list.id)" v-if="store.get_permissions.includes('DOC_ACC_EDIT')||JSON.parse(store.get_user).user_type=='admin'"><i class="bx bx-edit-alt me-1"></i> ແກ້ໄຂ</a>
                   <a class="dropdown-item" href="javascript:void(0);" @click="DelDocWork(list.id)" v-if="store.get_permissions.includes('DOC_ACC_DEL')||JSON.parse(store.get_user).user_type=='admin'"><i class="bx bx-trash me-1"></i> ລຶບ</a>
                 </div>
@@ -133,15 +146,18 @@
                                 class="dropdown-menu"
                                 style="width: max-content"
                               >
-                                <div class="p-2">
+                                <div class="p-2 d-flex">
                                   <input
                                     type="text"
-                                    class="form-control rounded-pill"
+                                    class="form-control rounded-pill me-2"
                                     placeholder="ຄົ້ນຫາ..."
                                    v-model="SearchCus"
                                    @keyup.enter="GetCus()"
                                    ref="search_cus"
                                   />
+                                  <button class="btn btn-icon rounded-pill btn-info" @click="AddNewCus()" v-if="ShAddCustomer" >
+                                    <i class='bx bx-plus fs-4'></i>
+                                  </button>
                                 </div>
                                 <a
                                   v-for="list in CustomerData" :key="list.id"
@@ -221,6 +237,75 @@
               </div>
             </div>
           </div>
+
+
+          <div class="modal modal-top modal-md fade" data-bs-backdrop="static" id="cus-form" tabindex="-1" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog">
+              <form class="modal-content">
+                <div class="modal-header">
+                  <!-- <h5 class="modal-title" id="modalTopTitle">Modal title</h5> -->
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ref="close_cus_form"></button>
+                </div>
+                <div class="modal-body pt-0"> 
+                  
+                
+                   <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label for="f-name" class="fs-6">ຊື່:</label>
+                        <input class="form-control" type="text" v-model="CusForm.name" id="f-name" placeholder="...">
+                    </div>
+                    <div class="col-md-6">
+                           <label for="f-lastname" class="fs-6">ນາມສະກຸນ:</label>
+                        <input class="form-control" type="text" v-model="CusForm.last_name"  id="f-lastname" placeholder="...">
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col-md-6">
+                      <label for="" class="fs-6 me-2 mb-2">ເພດ:</label>
+                      <div class=" d-flex align-items-center">
+                          
+                          <div class="form-check me-2 ">
+                            <input name="gender" v-model="CusForm.gender" class="form-check-input" type="radio" value="male" id="male" >
+                            <label class="form-check-label" for="male">
+                              ຊາຍ
+                            </label>
+                          </div>
+
+                          <div class="form-check me-2">
+                            <input name="gender" v-model="CusForm.gender" class="form-check-input" type="radio" value="female" id="female" >
+                            <label class="form-check-label" for="female">
+                              ຍິງ
+                            </label>
+                          </div>
+                      </div>
+                      
+                    </div>
+                    <div class="col-md-6">
+                      <label for="tel" class="form-label fs-6">ເບີໂທ:</label>
+                            <input type="text" v-model="CusForm.tel" id="tel" class="form-control" placeholder="..." />
+                    </div>
+                  </div>
+
+                  
+
+                  <div class="row mb-2">
+                    
+                    <div class="col-md-12">
+                      <label for="address" class="form-label fs-6">ທີ່ຢູ່:</label>
+                            <input type="text" v-model="CusForm.address" id="address" class="form-control" placeholder="..." />
+                    </div>
+                  </div>
+
+                  <div class=" d-flex justify-content-end mt-4">
+                    <button type="button" class="btn btn-primary me-2" @click="SaveNewCus()" >ບັນທຶກ</button>
+                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">ຍົກເລີກ</button>
+                  
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
 </template>
 
 <script>
@@ -264,7 +349,15 @@ export default {
             notices:'',
             // prices:'',
             DocType:'',
-            Status:''
+            Status:'',
+            ShAddCustomer:false,
+            CusForm:{
+              name:'',
+              last_name:'',
+              gender:'male',
+              address:'',
+              tel:''
+            }
         };
     },
     computed: {
@@ -278,13 +371,21 @@ export default {
               return false;
             }
           }
-        }  
+        }
     },
     mounted() {
         
     },
 
     methods: {
+      PtintBill(id,type){
+      if(type == '80')
+      this.openLink(window.location.origin + `/api/rec/print/80mm/${id}`);
+      if(type == 'a4')
+      this.openLink(window.location.origin + `/api/rec/print/a4/${id}`);
+      if(type == 'quo')
+      this.openLink(window.location.origin + `/api/rec/print/quo/${id}`);
+    },
        ChangeSort(){
         if(this.Sort=='asc'){
           this.Sort = 'desc'
@@ -295,6 +396,42 @@ export default {
       },
       date(value){
         return moment(value).format('DD/MM/YYYY');
+      },
+      AddNewCus(){
+        let ch = isFinite(this.SearchCus) // number = true, string = false
+        // close tran doc
+        this.$refs.close_tran_doc.click();
+        // open cus form
+        var modal = new bootstrap.Modal(document.getElementById('cus-form'), {
+            keyboard: false
+        });
+        modal.show();
+
+        if(ch){
+          this.CusForm.tel = this.SearchCus
+          this.CusForm.name = ''
+        } else {
+          this.CusForm.name = this.SearchCus
+          this.CusForm.tel = ''
+        }
+      },
+      SaveNewCus(){
+        this.AddData('cus/add',this.CusForm,result=>{
+          if(result.success){
+            this.$refs.close_cus_form.click();
+            this.CustomerData = result.all_cus;
+            let item = this.CustomerData.find((i)=>i.id == result.new_cus)
+            if(item){
+              this.addCus(item.id,item.name,item.last_name,item.gender,item.tel,item.address)
+            }
+            // show tran doc
+            var modal = new bootstrap.Modal(document.getElementById('tran_doc'), {
+                keyboard: false
+            });
+            modal.show();
+            
+          }
+        });
       },
       onSelectDocCopy(e){
             // console.log(e);
@@ -354,6 +491,7 @@ export default {
               customer_address:'',
               status:'pendding'
             }
+            this.ShAddCustomer = false
             this.GetDoc(this.Dcat)
             this.FormType = true
             this.SearchCus = ''
@@ -430,6 +568,11 @@ export default {
           // console.log('aa');
           this.GetData(`cus/search?search=${this.SearchCus}`,result=>{
             this.CustomerData = result;
+            if(result.length>0){
+              this.ShAddCustomer = false
+            } else {
+              this.ShAddCustomer = true
+            }
           });
         },
         GetDocEd(id){
@@ -564,6 +707,7 @@ export default {
         if(val.length == 0){
           // this.GetCus();
           this.CustomerData = [];
+          this.ShAddCustomer = false
         }
       },
       DocCatData: function(val){

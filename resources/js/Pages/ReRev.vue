@@ -2,7 +2,13 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-4">
-            <h5 class="card-header">ລາຍງານ ຕິດຕາມເງິນສົດ</h5>
+                <div class="card-header d-flex">
+                    <h5 class="mb-0">ລາຍງານ ຕິດຕາມເງິນສົດ</h5>
+                    <div v-if="loading_table"  class="spinner-grow spinner-grow-sm text-warning ms-2" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                </div>
+            
             <div class="card-body">
 
                 <div class="d-sm-flex align-items-center justify-content-between border-bottom pb-2" >
@@ -34,8 +40,15 @@
                     <div>
                     
                       <button class="btn btn-info" @click="GetReport('true')">
+                      <span v-if="created_report">
+                        <span class="spinner-border me-1" role="status" aria-hidden="true"></span>
+                                ກຳລັງສ້າງ...
+                      </span>
+                       <span v-else class="d-flex align-items-center">
                         <i class='bx bxs-file-pdf fs-4 me-1'></i>
                         ສ້າງລາຍງານ PDF
+                       </span>
+                        
                       </button>
                     </div>
                   </div>
@@ -116,7 +129,7 @@
                                                     <td class="text-end p-1">{{formatPrice(subtotal_income_no)}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="text-end p-1">ເກີດຂື້ນຮັບອອກ:</td>
+                                                    <td class="text-end p-1">ເກີດຂື້ນຈ່າຍອອກ:</td>
                                                     <td class="text-end p-1">{{formatPrice(subtotal_expense_no)}}</td>
                                                 </tr>
                                                 <tr>
@@ -149,6 +162,7 @@ export default {
     mixins: [mixins],
     data() {
         return {
+            created_report:false,
             DataBefore:{
               income:0,
               expense:0,
@@ -239,9 +253,10 @@ export default {
         return moment(date).format("YYYY");
       },
         GetReport(pdf){
-
+            this.created_report = true;
             this.GetDataPost(`report/finance?pdf=${pdf}`, {date_tran: this.date_tran, dmy: this.dmy},result=>{
-               if(result.success){
+            this.created_report = false;
+              if(result.success){
                     this.DataBefore.income = result.sum_income_before;
                     this.DataBefore.expense = result.sum_expense_before;
                     this.DataBefore.total = result.subtotal_before;

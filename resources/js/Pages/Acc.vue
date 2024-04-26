@@ -1,6 +1,12 @@
 <template>
     <div class="card">
-  <h5 class="card-header">ລາຍການທຸລະກຳ ບັນຊີ</h5>
+      <div class="card-header d-flex">
+            <h5 class="mb-0">ລາຍການທຸລະກຳ ບັນຊີ</h5>
+            <div v-if="loading_table"  class="spinner-grow spinner-grow-sm text-warning ms-2" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+      </div>
+  
   <div class="card-body">
     <div class="table-responsive text-nowrap">
         <div class=" d-flex justify-content-between mb-2">
@@ -20,12 +26,12 @@
             </div>
             <div class=" d-flex">
                 <input type="text" class=" form-control me-2" v-model="Search" @keyup.enter="GetTran(1)" placeholder="ຄົ້ນຫາ...">
-                <div class="btn-group">
+                <!-- <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">ລົງບັນຊີ</button>
                         <ul class="dropdown-menu" style="">
                         <li><a class="dropdown-item" @click="AddTran()" href="javascript:void(0);"> <i class='bx bx-transfer-alt fs-5 me-2'></i> ລົງບັນຊີ</a></li>
                         </ul>
-                    </div>
+                    </div> -->
             </div>
         </div>
       <table class="table table-bordered">

@@ -66,8 +66,8 @@ class CustomerController extends Controller
             function($query) use ($search){
                 $query->where('name','LIKE',"%{$search}%")
                 ->orWhere('last_name','LIKE',"%{$search}%")
-                ->orWhere('tel','LIKE',"%{$search}%")
-                ->orWhere('address','LIKE',"%{$search}%");
+                ->orWhere('tel','LIKE',"%{$search}%");
+                // ->orWhere('address','LIKE',"%{$search}%");
             }
         )->get();
 
@@ -90,11 +90,13 @@ class CustomerController extends Controller
             
             $cus = new Customer();
             $cus->name = $request->name;
-            $cus->last_name = $request->last_name;
+            $cus->last_name = $request->last_name?$request->last_name:'';
             $cus->gender = $request->gender;
             $cus->tel = $request->tel;
             $cus->address = $request->address;
             $cus->save();
+
+            $getcus = Customer::orderBy('id','desc')->get();
 
             $success = true;
             $message = 'ບັນທຶກຂໍ້ມູນ ສຳເລັດ!';
@@ -105,6 +107,8 @@ class CustomerController extends Controller
         }
 
         $response = [
+            'all_cus' => $getcus, 
+            'new_cus' => $cus->id, 
             'success' => $success,
             'message' => $message,
         ];

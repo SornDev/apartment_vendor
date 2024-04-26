@@ -9,6 +9,9 @@ import { createWebHistory, createRouter } from "vue-router";
 // import Login from '../Pages/Login.vue';
 // import Register from '../Pages/Register.vue';
 
+ import Login from '../Pages/Login.vue';
+ import DashBoard from '../Pages/Dashboard.vue'
+
 import { useStore } from "../Store/auth";
 
 const authMiddleware = (to, from, next) =>{
@@ -45,7 +48,8 @@ export const routes = [
     {
         name: 'dashboard',
         path: '/dashboard',
-        component: () => import('../Pages/Dashboard.vue'),
+        component: DashBoard,
+        // component: () => import('../Pages/Dashboard.vue'),
         meta: {
             middleware: [authMiddleware]
         }
@@ -53,7 +57,8 @@ export const routes = [
     {
         name: 'login',
         path: '/login',
-        component: () => import('../Pages/Login.vue'),
+        component: Login,
+        // component: () => import('../Pages/Login.vue'),
     },
     {
         name: 'register',

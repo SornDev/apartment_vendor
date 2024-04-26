@@ -79,7 +79,8 @@ export default {
            show_pass:'password',
            text_error:'',
            url: window.location.origin,
-           loading:false
+           loading:false,
+           st:false,
         };
     },
     computed:{
@@ -148,7 +149,7 @@ export default {
                       } else {
                         this.text_error = res.data.message;
                       }
-
+                        this.st = true
                         // console.log(res);
                     }).catch((error)=>{
                         console.log(error);
@@ -156,6 +157,21 @@ export default {
           }
       }
     },
+    watch: {
+      user_name(){
+        if(this.st){
+          this.text_error = '';
+          this.st = false;
+        }
+      },
+      password(){
+        this.text_error = '';
+        if(this.st){
+          this.text_error = '';
+          this.st = false;
+        }
+      }
+    }
 };
 </script>
 

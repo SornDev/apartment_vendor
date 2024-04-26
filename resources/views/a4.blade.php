@@ -59,7 +59,7 @@
                 @endif
                 <span class="fs-6"> <strong> {{$setting->company_name}}</strong> </span><br>
                 
-                ອີເມວລ໌: {{$setting->company_tel}} <br>
+                ອີເມວລ໌: {{$setting->company_email}} <br>
                 ເບີໂທ: {{$setting->company_tel}}<br>
                 ທີ່ຢູ່: {{$setting->company_address}}
             </div>
@@ -131,21 +131,28 @@
 
                                             <div class="mt-2">
                                             @if($customer_payed>0)
-                                                <div> ຮັບເງິນກີບ: {{number_format($customer_payed, 0, ',', '.')}} ₭</div>
+                                                <div> ຮັບເງິນກີບ: {{number_format($customer_payed, 0, ',', '.')}} </div>
                                             @endif
-                
-                                                ເງິນທອນ: {{number_format($cash_back, 0, ',', '.')}} ₭ <hr>
-                                               
+                                            @if($cash_back>0)
+                                                ເງິນທອນ: {{number_format($cash_back, 0, ',', '.')}}  <hr>
+                                            @endif
                                             </div>
                                            
                                             <table class="table  table-bordered align-middle table-nowrap mb-0 border-1 border-secondary" style="width: 230px;">
                                                 <tbody>
-                                                   
+                                                    @if($customer_payed>0)
+                                                    @php($total -= $customer_payed)
                                                     <tr>
-                                                        <td width="80" class="text-end">ເງິນກີບ</td>
-                                                        <td width="155" class="text-end">{{number_format($total, 0, ',', '.')}} ₭</td>
+                                                        <td width="80" class="text-end p-2">ຊຳລະແລ້ວ</td>
+                                                        <td width="155" class="text-end p-2 px-4">{{number_format($customer_payed, 0, ',', '.')}} </td>
                                                     </tr>
-                                                 
+                                                   @endif
+                                                   @if($total>0)
+                                                    <tr>
+                                                        <td width="80" class="text-end p-2 ">ຍອດຕ້ອງຊຳລະ</td>
+                                                        <td width="155" class="text-end p-2 px-4">{{number_format($total, 0, ',', '.')}} </td>
+                                                    </tr>
+                                                    @endif
                                                 </tbody>
                                             </table>
 

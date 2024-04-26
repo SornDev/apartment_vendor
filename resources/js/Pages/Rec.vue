@@ -1,6 +1,12 @@
 <template>
   <div class="card">
-    <h5 class="card-header">ລາຍການໃບບິນ</h5>
+    <div class="card-header d-flex">
+        <h5 class="mb-0">ລາຍການໃບບິນ</h5>
+        <div v-if="loading_table"  class="spinner-grow spinner-grow-sm text-warning ms-2" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+    </div>
+    
     <div class="card-body">
       <div class="table-responsive text-nowrap">
         <div class="d-flex justify-content-between mb-2">
@@ -413,7 +419,7 @@
                         class="text-end d-flex align-items-center justify-content-end"
                       >
                         <span v-if="RecForm.status == 'success'">
-                          {{ formatPrice(PaySetting.rec_discount) }} ₭</span
+                          {{ formatPrice(PaySetting.rec_discount) }} </span
                         >
                         <cleave
                           type="text"
@@ -432,7 +438,7 @@
                             RecForm.status == 'padding' ||
                             RecForm.status == 'created'
                           "
-                          >₭</span
+                          ></span
                         >
                       </td>
                       <!-- <td class="text-end">
@@ -467,7 +473,7 @@
                           </div>
                         </div>
                       </td>
-                      <td class="text-end">{{ formatPrice(CalVat) }} ₭</td>
+                      <td class="text-end">{{ formatPrice(CalVat) }} </td>
                       <td
                         v-if="
                           RecForm.status == 'padding' ||
@@ -543,25 +549,25 @@
                       style="width: 238px"
                       class="border px-3 py-2 text-end fs-5 fw-bold"
                     >
-                      {{ formatPrice(CalTotal) }} ₭
+                      {{ formatPrice(CalTotal) }} 
                     </td>
                   </tr>
                   <tr v-if="RecForm.payed">
-                    <td class="text-end pe-2 fw-bold">ຈ່າຍແລ້ວ:</td>
+                    <td class="text-end pe-2 fw-bold">ຊຳລ່ະແລ້ວ:</td>
                     <td
                       style="width: 238px"
                       class="border px-3 py-2 text-end fs-5 fw-bold"
                     >
-                      {{ formatPrice(RecForm.payed) }} ₭
+                      {{ formatPrice(RecForm.payed) }} 
                     </td>
                   </tr>
                   <tr>
-                    <td class="text-end pe-2 fw-bold">ລວມເງິນຕ້ອງຈ່າຍ:</td>
+                    <td class="text-end pe-2 fw-bold">ລວມເງິນຕ້ອງຊຳລ່ະ:</td>
                     <td
                       style="width: 238px"
                       class="border px-3 py-2 text-end fs-5 fw-bold"
                     >
-                      {{ formatPrice(CalTotal - RecForm.payed) }} ₭
+                      {{ formatPrice(CalTotal - RecForm.payed) }} 
                     </td>
                   </tr>
                   <tr>
@@ -579,7 +585,7 @@
                         v-model="PaySetting.customer_pay"
                       />
                       <span class="fs-6 p-0 text-info" style="padding-top: 6px"
-                        >₭</span
+                        ></span
                       >
                     </td>
                   </tr>
@@ -610,7 +616,7 @@
                       style="width: 238px"
                       class="border px-3 py-2 text-end fs-5 fw-bold"
                     >
-                      {{ formatPrice(CalTotal) }} ₭
+                      {{ formatPrice(CalTotal) }} 
                     </td>
                   </tr>
                 </table>
@@ -891,7 +897,7 @@ export default {
         this.RecForm.payed = result.payed;
         // console.log(result.rec.rec_discount)
         this.PaySetting.rec_discount = result.rec.rec_discount;
-        this.PaySetting.rec_vat = result.rec.rec_vat ? true : false;
+        this.PaySetting.rec_vat = result.rec.rec_vat==1 ? true : false;
         this.RecListForm = result.rec_list;
         var modal = new bootstrap.Modal(document.getElementById("rec_form"), {
           keyboard: false,
@@ -916,6 +922,15 @@ export default {
           }
         );
       } else {
+
+        // console.log(this.PaySetting.rec_vat)
+
+        if(this.PaySetting.rec_vat == true){
+          this.PaySetting.rec_vat = 1
+        }else{
+          this.PaySetting.rec_vat = 0
+        }
+
         this.UpdateData(
           `rec/update/${this.EditID}`,
           {

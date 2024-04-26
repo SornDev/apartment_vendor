@@ -58,7 +58,7 @@
                 @endif
                 <span class="fs-6"> <strong> {{$setting->company_name}}</strong> </span><br>
                 
-                ອີເມວລ໌: {{$setting->company_tel}} <br>
+                ອີເມວລ໌: {{$setting->company_email}} <br>
                 ເບີໂທ: {{$setting->company_tel}}<br>
                 ທີ່ຢູ່: {{$setting->company_address}}
             </div>
@@ -135,7 +135,7 @@
                                                    
                                                     <tr>
                                                         <td width="80" class="text-end">ເງິນກີບ</td>
-                                                        <td width="155" class="text-end">{{number_format($total, 0, ',', '.')}} ₭</td>
+                                                        <td width="155" class="text-end">{{number_format($total, 0, ',', '.')}} </td>
                                                     </tr>
                                                  
                                                 </tbody>

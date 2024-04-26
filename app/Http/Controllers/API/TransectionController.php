@@ -308,9 +308,9 @@ class TransectionController extends Controller
             $compare = round(($dwMonth-$dwLastMonth)/$dwLastMonth*100,2); // compare percent
         
             if($compare>0){
-                $Textcompare = 'ເພີ່ມຂື້ນຈາກເດືອນກ່ອນ';
+                $Textcompare = 'ເພີ່ມຂື້ນ';
             } else {
-                $Textcompare = 'ຫຼຸດລົງຈາກເດືອນກ່ອນ ';
+                $Textcompare = 'ຫຼຸດລົງ';
             }
             
 
@@ -340,9 +340,9 @@ class TransectionController extends Controller
             $comparepadding = round(($dwpMonth-$dwpLastMonth)/$dwpLastMonth*100,2); // compare percent
 
             if($comparepadding>0){
-                $Textcomparepadding = 'ເພີ່ມຂື້ນຈາກເດືອນກ່ອນ';
+                $Textcomparepadding = 'ເພີ່ມຂື້ນ';
             } else {
-                $Textcomparepadding = 'ຫຼຸດລົງຈາກເດືອນກ່ອນ';
+                $Textcomparepadding = 'ຫຼຸດລົງ';
             }
 
 
@@ -373,10 +373,10 @@ class TransectionController extends Controller
             $compareincome = round(($incomeMonth-$incomeLastMonth)/$incomeLastMonth*100,2); // compare percent
 
             if($compareincome>0){
-                $Textcompareincome = 'ເພີ່ມຂື້ນຈາກເດືອນກ່ອນ';
+                $Textcompareincome = 'ເພີ່ມຂື້ນ';
             
             } else {
-                $Textcompareincome = 'ຫຼຸດລົງຈາກເດືອນກ່ອນ ';
+                $Textcompareincome = 'ຫຼຸດລົງ';
             }
 
             // expense -----------------
@@ -405,9 +405,9 @@ class TransectionController extends Controller
             $compareexpense = round(($expenseMonth-$expenseLastMonth)/$expenseLastMonth*100,2); // compare percent
 
             if($compareexpense>0){
-                $Textcompareexpense = 'ເພີ່ມຂື້ນຈາກເດືອນກ່ອນ';
+                $Textcompareexpense = 'ເພີ່ມຂື້ນ';
             } else {
-                $Textcompareexpense = 'ຫຼຸດລົງຈາກເດືອນກ່ອນ';
+                $Textcompareexpense = 'ຫຼຸດລົງ';
             }
 
         } else {
@@ -437,9 +437,9 @@ class TransectionController extends Controller
             $compare = round(($dwMonth-$dwLastMonth)/$dwLastMonth*100,2); // compare percent
         
             if($compare>0){
-                $Textcompare = 'ເພີ່ມຂື້ນຈາກເດືອນກ່ອນ';
+                $Textcompare = 'ເພີ່ມຂື້ນ';
             } else {
-                $Textcompare = 'ຫຼຸດລົງຈາກເດືອນກ່ອນ ';
+                $Textcompare = 'ຫຼຸດລົງ';
             }
             
 
@@ -472,9 +472,9 @@ class TransectionController extends Controller
             $comparepadding = round(($dwpMonth-$dwpLastMonth)/$dwpLastMonth*100,2); // compare percent
 
             if($comparepadding>0){
-                $Textcomparepadding = 'ເພີ່ມຂື້ນຈາກເດືອນກ່ອນ';
+                $Textcomparepadding = 'ເພີ່ມຂື້ນ';
             } else {
-                $Textcomparepadding = 'ຫຼຸດລົງຈາກເດືອນກ່ອນ';
+                $Textcomparepadding = 'ຫຼຸດລົງ';
             }
 
 
@@ -508,10 +508,10 @@ class TransectionController extends Controller
             $compareincome = round(($incomeMonth-$incomeLastMonth)/$incomeLastMonth*100,2); // compare percent
 
             if($compareincome>0){
-                $Textcompareincome = 'ເພີ່ມຂື້ນຈາກເດືອນກ່ອນ';
+                $Textcompareincome = 'ເພີ່ມຂື້ນ';
             
             } else {
-                $Textcompareincome = 'ຫຼຸດລົງຈາກເດືອນກ່ອນ ';
+                $Textcompareincome = 'ຫຼຸດລົງ';
             }
 
             // expense -----------------
@@ -543,9 +543,9 @@ class TransectionController extends Controller
             $compareexpense = round(($expenseMonth-$expenseLastMonth)/$expenseLastMonth*100,2); // compare percent
 
             if($compareexpense>0){
-                $Textcompareexpense = 'ເພີ່ມຂື້ນຈາກເດືອນກ່ອນ';
+                $Textcompareexpense = 'ເພີ່ມຂື້ນ';
             } else {
-                $Textcompareexpense = 'ຫຼຸດລົງຈາກເດືອນກ່ອນ';
+                $Textcompareexpense = 'ຫຼຸດລົງ';
             }
             
         }
@@ -558,7 +558,7 @@ class TransectionController extends Controller
 
         // return all to array
 
-        $DocWork = [$dwall,$dwpYear,$dwpMonth,$dwLastMonth,$compare,$Textcompare];
+        $DocWork = [$dwall,$dwYear,$dwMonth,$dwLastMonth,$compare,$Textcompare];
         $DocPadding = [$dwpadding,$dwpYear,$dwpMonth,$dwpLastMonth,$comparepadding,$Textcomparepadding];
         $Income = [$income,$incomeYear,$incomeMonth,$incomeMonth,$compareincome,$Textcompareincome];
         $Expense = [$expense,$expenseYear,$expenseMonth,$expenseLastMonth,$compareexpense,$Textcompareexpense];

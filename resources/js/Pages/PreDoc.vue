@@ -5,12 +5,17 @@
     <div class="card">
         <div class="p-3 border-bottom">
             <div class="row">
-          <label for="doctype" class="col-md-2 col-form-label fs-5">ປະເພດເອກະສານ:</label>
-          <div class="col-md-8"> 
-            <select id="doctype" v-model="Dcat" class="form-select">
+         
+          <div class="col-md-6 d-flex text-nowrap  "> 
+             <label for="doctype" class="col-form-label fs-5 me-2 fw-bold">ປະເພດເອກະສານ:</label>
+            <select id="doctype" v-model="Dcat" class="form-select " >
             <option v-for="list in DocCatData" :key="list.id" :value="list.id"> {{list.name}} </option>
           </select>
           </div>
+          <div class="col-md-6 d-flex align-items-center">
+            <span class="me-2 fw-bold fs-5" >ຄ່າບໍລິການ: </span> <span class="fw-bold text-info fs-5">{{ formatPrice(PriceService)}} ກີບ</span>
+          </div>
+          
         </div>
         </div>
         <div class="card-body">
@@ -94,6 +99,15 @@ export default {
     },
   components: {
 
+  },
+  computed: {
+      PriceService(){
+        let price = 0;
+        if(this.DocCatData.length > 0){
+          price = this.DocCatData.find((i)=>i.id==this.Dcat).price;
+        }
+        return price;
+      }
   },
     mounted() {
         

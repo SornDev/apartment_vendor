@@ -5,42 +5,15 @@
 <div class="layout-wrapper layout-content-navbar  ">
   <div class="layout-container">
 
-    
-    
-
-
-
-
 <!-- Menu -->
     <MenuSidebar v-if="store.get_token" />
 <!-- / Menu -->
-
-    
-
     <!-- Layout container -->
     <div class="layout-page">
-      
-      
-
-
 
 <!-- Navbar -->
-
-
-
-
 <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar" v-if="store.get_token">
-  
 
-  
-
-  
-
-      
-      
-
-      
-      
       <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0   d-xl-none ">
         <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)" @click="setmenu()">
           <i class="bx bx-menu bx-sm"></i>
@@ -532,9 +505,6 @@
       </div>
       <!-- / Layout page -->
     </div>
-
-    
-    
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle" @click="setmenu()"></div>
     
@@ -564,7 +534,6 @@ export default {
             menu_status:'big',
         };
     },
-
     mounted() {
         
     },

@@ -118,10 +118,10 @@ export default{
                         store.remove_user()
                         store.remove_permissions()
                         store.remove_setting()
-                        localStorage.removeItem('token')
-                        localStorage.removeItem('user')
-                        localStorage.removeItem('permissions')
-                        localStorage.removeItem('setting')
+                        localStorage.removeItem('web_token')
+                        localStorage.removeItem('web_user')
+                        localStorage.removeItem('web_permission')
+                        localStorage.removeItem('web_setting')
                         // redirect to login
                         this.$router.push({name:'login'})
                     }
@@ -164,10 +164,10 @@ export default{
                         store.remove_user()
                         store.remove_permissions()
                         store.remove_setting()
-                        localStorage.removeItem('token')
-                        localStorage.removeItem('user')
-                        localStorage.removeItem('permissions')
-                        localStorage.removeItem('setting')
+                        localStorage.removeItem('web_token')
+                        localStorage.removeItem('web_user')
+                        localStorage.removeItem('web_permission')
+                        localStorage.removeItem('web_setting')
                         // redirect to login
                         this.$router.push({name:'login'})
                     }
@@ -202,10 +202,10 @@ export default{
                     store.remove_user()
                     store.remove_permissions()
                     store.remove_setting()
-                    localStorage.removeItem('token')
-                    localStorage.removeItem('user')
-                    localStorage.removeItem('permissions')
-                    localStorage.removeItem('setting')
+                    localStorage.removeItem('web_token')
+                    localStorage.removeItem('web_user')
+                    localStorage.removeItem('web_permission')
+                    localStorage.removeItem('web_setting')
                     // redirect to login
                     this.$router.push({name:'login'})
                 }
@@ -229,10 +229,10 @@ export default{
                 store.remove_user()
                 store.remove_permissions()
                 store.remove_setting()
-                localStorage.removeItem('token')
-                localStorage.removeItem('user')
-                localStorage.removeItem('permissions')
-                localStorage.removeItem('setting')
+                localStorage.removeItem('web_token')
+                localStorage.removeItem('web_user')
+                localStorage.removeItem('web_permission')
+                localStorage.removeItem('web_setting')
                 // redirect to login
                 this.$router.push({name:'login'})
             }
@@ -295,10 +295,10 @@ export default{
                         store.remove_user()
                         store.remove_permissions()
                         store.remove_setting()
-                        localStorage.removeItem('token')
-                        localStorage.removeItem('user')
-                        localStorage.removeItem('permissions')
-                        localStorage.removeItem('setting')
+                        localStorage.removeItem('web_token')
+                        localStorage.removeItem('web_user')
+                        localStorage.removeItem('web_permission')
+                        localStorage.removeItem('web_setting')
                         // redirect to login
                         this.$router.push({name:'login'})
                     }
@@ -360,10 +360,10 @@ export default{
                             store.remove_user()
                             store.remove_permissions()
                             store.remove_setting()
-                            localStorage.removeItem('token')
-                            localStorage.removeItem('user')
-                            localStorage.removeItem('permissions')
-                            localStorage.removeItem('setting')
+                            localStorage.removeItem('web_token')
+                            localStorage.removeItem('web_user')
+                            localStorage.removeItem('web_permission')
+                            localStorage.removeItem('web_setting')
                             // redirect to login
                             this.$router.push({name:'login'})
                         }
@@ -395,7 +395,8 @@ export default{
                 result(response.data)
 
             } catch (error) {
-                
+                console.log(error)
+                console.log('2:'+error.response.status)
                 if(error.response.status == 401){
                     
                     // remove all data pinia and localstorage
@@ -404,12 +405,13 @@ export default{
                     store.remove_user()
                     store.remove_permissions()
                     store.remove_setting()
-                    localStorage.removeItem('token')
-                    localStorage.removeItem('user')
-                    localStorage.removeItem('permissions')
-                    localStorage.removeItem('setting')
+                    localStorage.removeItem('web_token')
+                    localStorage.removeItem('web_user')
+                    localStorage.removeItem('web_permission')
+                    localStorage.removeItem('web_setting')
                     // redirect to login
                     this.$router.push({name:'login'})
+                    console.log('Out')
                 }
             }
                 // console.log(response)
@@ -442,10 +444,10 @@ export default{
                     store.remove_user()
                     store.remove_permissions()
                     store.remove_setting()
-                    localStorage.removeItem('token')
-                    localStorage.removeItem('user')
-                    localStorage.removeItem('permissions')
-                    localStorage.removeItem('setting')
+                    localStorage.removeItem('web_token')
+                    localStorage.removeItem('web_user')
+                    localStorage.removeItem('web_permission')
+                    localStorage.removeItem('web_setting')
                     // redirect to login
                     this.$router.push({name:'login'})
                 }

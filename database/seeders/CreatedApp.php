@@ -18,7 +18,7 @@ class CreatedApp extends Seeder
     public function run(): void
     {
         // check if not empty
-        if (User::count() > 0) {
+        if (User::count() == 0) {
             // cerate user
         User::create([
             'name' => 'admin',
@@ -33,7 +33,7 @@ class CreatedApp extends Seeder
         }
         
         // if not empty
-        if (Setting::count() > 0) {
+        if (Setting::count() == 0) {
             // create setting
             Setting::create([
                 'company_name' => 'shipping',
@@ -48,7 +48,7 @@ class CreatedApp extends Seeder
         
 
         // if not empty
-        if (Roles::count() > 0) {
+        if (Roles::count() == 0) {
             // create roles
             Roles::create([
                 'role_name' => 'admin',
@@ -57,7 +57,7 @@ class CreatedApp extends Seeder
         }
 
         // if not empty
-        if (AccType::count() > 0) {
+        if (AccType::count() == 0) {
             // create account type
             // create array of acc type
             $acc_type = ['ຄ່າຂີ້ເຫຍື້ອ','ຄ່ານ້ຳ','ຄ່າໄຟ','ຄ່າອິນເຕີເນັດ'];

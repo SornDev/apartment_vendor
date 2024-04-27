@@ -294,15 +294,11 @@ class UserController extends Controller
                     if(file_exists($image_path)){
                         unlink($image_path);
                     }
-                
+                } 
                 $user->delete();
 
                 $success = true;
                 $message = 'ລົບຂໍ້ມູນ ສຳເລັດ!';
-            }
-
-           
-            
 
         } catch (\Illuminate\Database\QueryException $ex) {
             $success = false;

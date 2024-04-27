@@ -16,6 +16,7 @@ use App\Http\Controllers\API\TransectionController;
 use App\Http\Controllers\API\SettingController;
 use App\Http\Controllers\API\ReportController;
 use App\Http\Controllers\API\RolesController;
+use App\Http\Controllers\API\AccTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,13 +45,13 @@ Route::controller(StoreController::class)->group(function (){
     Route::delete('store/delete/{id}','delete');
 });
 
-Route::controller(StoreController::class)->group(function (){
+// Route::controller(StoreController::class)->group(function (){
     // Route::get('TransectionController','index');
     // Route::get('TransectionController/edit/{id}','edit');
-    Route::post('TransectionController/add','add');
+    // Route::post('TransectionController/add','add');
     // Route::post('TransectionController/update/{id}','update');
     // Route::delete('TransectionController/delete/{id}','delete');
-});
+// });
 
 
 // --------
@@ -137,4 +138,12 @@ Route::controller(RolesController::class)->group(function (){
     Route::post('roles/add','add');
     Route::post('roles/update/{id}','update');
     Route::delete('roles/delete/{id}','delete');
+});
+
+Route::controller(AccTypeController::class)->group(function (){
+    Route::get('acc_type/get','index');
+    Route::get('acc_type/edit/{id}','edit');
+    Route::post('acc_type/add','add');
+    Route::post('acc_type/update/{id}','update');
+    Route::delete('acc_type/delete/{id}','delete');
 });

@@ -15,8 +15,7 @@
                   <i class='bx bx-sort-up fs-4 me-2' v-if="Sort=='asc'"></i>
                   <i class='bx bx-sort-down fs-4 me-2' v-else></i>
                 </div>
-                
-
+              
                 <select class="form-select me-2" v-model="PerPage" @change="GetUser()" >
                     <option value="10">10</option>
                     <option value="20">20</option>
@@ -29,7 +28,7 @@
                 <button class="btn btn-primary" @click="AddUser()" v-if="store.get_permissions.includes('USER_ACC_EDIT')||JSON.parse(store.get_user).user_type=='admin'">ເພີ່ມໃໝ່</button>
             </div>
         </div>
-      <table class="table table-bordered">
+      <table class="table table-bordered shadow-sm">
         <thead>
           <tr class="table-info">
             <th class="fs-6 fw-bold" width="40"></th>

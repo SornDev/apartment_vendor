@@ -28,8 +28,8 @@
                         </div>
                     </div>
                     
-                    <div class="demo-inline-spacing mt-3">
-                      <ol class="list-group ">
+                    <div class="demo-inline-spacing mt-3 ">
+                      <ol class="list-group shadow-sm">
                         <li v-for="(list, index) in DocData" :key="list.id" @click="listDoc=list.id" class="list-group-item d-flex justify-content-between align-items-center cursor-pointer "> <span>{{index+1}}. {{list.doc_name}}</span> <i class='bx bxs-right-arrow-circle fs-4 text-warning' v-if="listDoc==list.id"></i> </li>
                       </ol>
                     </div>

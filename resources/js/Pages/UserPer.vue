@@ -131,6 +131,14 @@
                                     <label class="form-check-label" for="accacc"> ສິດເຂົ້າເຖິງ </label>
                                 </div>
                                 <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input me-2" v-model="accacc_add" type="checkbox" :disabled="!RoleSelect" @click="SelectRoles('ACC_ACC_ADD')" role="switch" id="accacc_add">
+                                    <label class="form-check-label" for="accacc_add"> ສິດລົງບັນຊີ </label>
+                                </div>
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input me-2" v-model="accacc_mg" type="checkbox" :disabled="!RoleSelect" @click="SelectRoles('ACC_ACC_MG')" role="switch" id="accacc_mg">
+                                    <label class="form-check-label" for="accacc_mg"> ສິດຈັດການບັນຊີລາຍຈ່າຍ </label>
+                                </div>
+                                <div class="form-check form-switch mb-2">
                                     <input class="form-check-input me-2" v-model="editacc" type="checkbox" :disabled="!RoleSelect" @click="SelectRoles('ACC_REJECT')" role="switch" id="editacc">
                                     <label class="form-check-label" for="editacc"> ສິດເຂົ້າເຖິງ ການເພີ່ມ ແລະ ອັບເດດ </label>
                                 </div>
@@ -291,6 +299,8 @@ export default {
            editrec:false,
            delrec:false,
            accacc:false,
+           accacc_add:false,
+           accacc_mg:false,
            editacc:false,
            acccus:false,
            editcus:false,
@@ -368,6 +378,8 @@ export default {
                 this.editcus = this.RolesPermission.includes('CUS_ACC_EDIT')
                 this.delcus = this.RolesPermission.includes('CUS_ACC_DEL')
                 this.accacc = this.RolesPermission.includes('ACC_ACC')
+                this.accacc_add = this.RolesPermission.includes('ACC_ACC_ADD')
+                this.accacc_mg = this.RolesPermission.includes('ACC_ACC_MG')
                 this.editacc = this.RolesPermission.includes('ACC_REJECT')
                 this.accuser = this.RolesPermission.includes('USER_ACC')
                 this.edituser = this.RolesPermission.includes('USER_ACC_EDIT')

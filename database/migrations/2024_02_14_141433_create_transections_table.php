@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('transections', function (Blueprint $table) {
             $table->id();
             $table->string('tran_id');
-            $table->string('tran_type');
+            $table->string('tran_type')->nullable();
             $table->string('rec_id')->nullable();
             $table->string('tran_details');
             $table->string('currency_payed')->nullable();

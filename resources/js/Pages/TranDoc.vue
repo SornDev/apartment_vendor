@@ -9,7 +9,7 @@
   </div>
   
   <div class="card-body">
-    <div class="table-responsive text-nowrap">
+    <div class="table-responsive text-nowrap ">
         <div class=" d-flex justify-content-between mb-2">
             <div class=" d-flex justify-content-between align-items-center">
                 <div class=" cursor-pointer" @click="ChangeSort()">
@@ -39,17 +39,17 @@
                 <button class="btn btn-primary" @click="AddDocWork()" v-if="store.get_permissions.includes('DOC_ACC_EDIT')||JSON.parse(store.get_user).user_type=='admin'">ເພີ່ມໃໝ່</button>
             </div>
         </div>
-      <table class="table table-bordered">
+      <table class="table table-bordered shadow-sm">
         <thead>
           <tr class="table-info">
-            <th class="fs-6 fw-bold">ເລກທີ່</th>
-            <th class="fs-6 fw-bold">ວັນທີ່</th>
+            <th class="fs-6 fw-bold" width="140">ເລກທີ່</th>
+            <th class="fs-6 fw-bold" width="122">ວັນທີ່</th>
             <th class="fs-6 fw-bold">ປະເພດເອກະສານ</th>
             <th class="fs-6 fw-bold">ລູກຄ້າ</th>
             <th class="fs-6 fw-bold text-center">ເອກະສານ</th>
-            <th class="fs-6 fw-bold text-center">ຊຳລ່ະ</th>
+            <th class="fs-6 fw-bold text-center" width="120">ຊຳລ່ະ</th>
             <th class="fs-6 fw-bold">ຜູ້ບັນທຶກ</th>
-            <th class="fs-6 fw-bold" v-if="store.get_permissions.includes('DOC_ACC_EDIT')||store.get_permissions.includes('DOC_ACC_DEL')||JSON.parse(store.get_user).user_type=='admin'">ຈັດການ</th>
+            <th class="fs-6 fw-bold" width="100"  v-if="store.get_permissions.includes('DOC_ACC_EDIT')||store.get_permissions.includes('DOC_ACC_DEL')||JSON.parse(store.get_user).user_type=='admin'">ຈັດການ</th>
           </tr>
         </thead>
         <tbody v-if="TranDocData.data.length>0">

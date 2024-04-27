@@ -36,6 +36,7 @@ export default{
                 numeralDecimalMark: "",
                 delimiter: "",
               },
+            //   polling:null,
         }
     },
     created() {

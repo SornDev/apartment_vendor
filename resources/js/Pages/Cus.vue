@@ -27,7 +27,7 @@
                 <button class="btn btn-primary" @click="AddCus()" v-if="store.get_permissions.includes('CUS_ACC_EDIT')||JSON.parse(store.get_user).user_type=='admin'">ເພີ່ມໃໝ່</button>
             </div>
         </div> 
-      <table class="table table-bordered">
+      <table class="table table-bordered shadow-sm">
         <thead>
           <tr class="table-info">
             <th class="fs-6 fw-bold">ຊື່ ແລະ ນາມສະກຸນ</th>

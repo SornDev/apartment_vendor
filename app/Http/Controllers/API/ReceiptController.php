@@ -58,8 +58,8 @@ class ReceiptController extends Controller
                 function($query) use ($search){
                     $query->where('receipts.rec_id','LIKE',"%{$search}%")
                     ->orWhere('receipts.customer_name','LIKE',"%{$search}%")
-                    ->orWhere('receipts.customer_tel','LIKE',"%{$search}%");
-                    // ->orWhere('doc_works.status','LIKE',"%{$status}%")
+                    ->orWhere('receipts.customer_tel','LIKE',"%{$search}%")
+                    ->orWhere('receipts.doc_work_id','LIKE',"%{$search}%");
                     // ->orWhere('doc_works.doc_cat','LIKE',"%{$doc_cat}%");
                 }
             )
@@ -438,7 +438,7 @@ class ReceiptController extends Controller
                     if($vat_price){
                         $tran = new Transection();
                         $tran->tran_id = $tran_id;
-                        $tran->tran_type = 'expense';
+                        $tran->tran_type = null;
                         $tran->rec_id = $rec->rec_id;
                         $tran->tran_details = 'ອມພ ບິນ:'.$rec->rec_id;
                         $tran->currency = 'LAK';

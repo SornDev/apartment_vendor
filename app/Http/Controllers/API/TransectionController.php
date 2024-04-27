@@ -9,6 +9,7 @@ use App\Models\DocWork;
 use App\Models\DocWorkList;
 use App\Models\User;
 use App\Models\Receipt;
+use App\Models\AccType;
 use JWTAuth;
 
 class TransectionController extends Controller
@@ -83,6 +84,55 @@ class TransectionController extends Controller
 
 
             return response()->json($tran);
+    }
+
+    public function add(Request $request){
+            
+            if(checkRoles('ACC_ACC_ADD')==false){
+                $success = false;
+                $message = 'ທ່ານ ບໍ່ມີສິດເຂົ້ງເຖິງຂໍ້ມູນ!';
+                $response = [
+                    'success' => $success,
+                    'message' => $message,
+                ];
+                return response()->json($response);
+            }
+    
+       
+    
+            // try catch add transection
+            try {
+                $user_id = JWTAuth::parseToken()->authenticate()->id;
+                $tran_id = 'TR'.date('Y').rand(1000,9999);
+                // get acc type name by acc type id
+                $acc_type = AccType::find($request->acc_type_id);
+
+                $tran = new Transection();
+                $tran->tran_id = $tran_id;
+                $tran->tran_date = $request->tran_date;
+                $tran->tran_type = 'expense';
+                $tran->price = $request->price;
+                $tran->user_id = $user_id;
+                $tran->bank_id = $request->PayBy;
+                $tran->rate = 1;
+                $tran->tran_details = 'ລາຍຈ່າຍ '.$acc_type->acc_type_name;
+                $tran->status = 'success';
+                $tran->fn = 'EXP'; // expense
+                $tran->save();
+
+                $success = true;
+                $message = 'ບັນທຶກຂໍ້ມູນ ສຳເລັດ!';
+            } catch (\Illuminate\Database\QueryException $ex) {
+                $success = false;
+                $message = $ex->getMessage();
+            }
+    
+            $response = [
+                'success' => $success,
+                'message' => $message
+            ];
+    
+            return response()->json($response);
     }
 
     public function delete($id){
@@ -199,51 +249,52 @@ class TransectionController extends Controller
 
         if($user_type=='admin'){
             if($year=='all'){
-                    $cash = Transection::where(['bank_id'=>0,'tran_type'=>'income'])
-                    ->sum('price')-Transection::where(['bank_id'=>0,'tran_type'=>'expense'])
+                    $cash = Transection::where(['bank_id'=>'0','tran_type'=>'income','status'=>'success'])
+                    ->sum('price')-Transection::where(['bank_id'=>'0','tran_type'=>'expense','status'=>'success'])
                     ->sum('price');
-                    $bank = Transection::where(['bank_id'=>'bank','tran_type'=>'income'])
-                        ->sum('price')-Transection::where(['bank_id'=>'bank','tran_type'=>'expense'])
+                    $bank = Transection::where(['bank_id'=>'bank','tran_type'=>'income','status'=>'success'])
+                        ->sum('price')-Transection::where(['bank_id'=>'bank','tran_type'=>'expense','status'=>'success'])
                         ->sum('price');
                 } else {
                     $cash = Transection::whereYear('tran_date',$year)
-                    ->where(['bank_id'=>0,'tran_type'=>'income'])
+                    ->where(['bank_id'=>'0','tran_type'=>'income','status'=>'success'])
                     ->sum('price')-Transection::whereYear('tran_date',$year)
-                    ->where(['bank_id'=>0,'tran_type'=>'expense'])
+                    ->where(['bank_id'=>'0','tran_type'=>'expense','status'=>'success'])
                     ->sum('price');
         
                     $bank = Transection::whereYear('tran_date',$year)
-                    ->where(['bank_id'=>'bank','tran_type'=>'income'])
+                    ->where(['bank_id'=>'bank','tran_type'=>'income','status'=>'success'])
                         ->sum('price')-Transection::whereYear('tran_date',$year)
-                        ->where(['bank_id'=>'bank','tran_type'=>'expense'])
+                        ->where(['bank_id'=>'bank','tran_type'=>'expense','status'=>'success'])
                         ->sum('price');
+                        // return response()->json($cash);
                 }
         } else {
             if($year=='all'){
-                $cash = Transection::where(['bank_id'=>0,'tran_type'=>'income'])
+                $cash = Transection::where(['bank_id'=>0,'tran_type'=>'income','status'=>'success'])
                 ->where('user_id',$user_id)
-                ->sum('price')-Transection::where(['bank_id'=>0,'tran_type'=>'expense'])
+                ->sum('price')-Transection::where(['bank_id'=>0,'tran_type'=>'expense','status'=>'success'])
                 ->where('user_id',$user_id)
                 ->sum('price');
-                $bank = Transection::where(['bank_id'=>'bank','tran_type'=>'income'])
+                $bank = Transection::where(['bank_id'=>'bank','tran_type'=>'income','status'=>'success'])
                 ->where('user_id',$user_id)
-                    ->sum('price')-Transection::where(['bank_id'=>'bank','tran_type'=>'expense'])
+                    ->sum('price')-Transection::where(['bank_id'=>'bank','tran_type'=>'expense','status'=>'success'])
                     ->sum('price');
             } else {
                 $cash = Transection::whereYear('tran_date',$year)
                 ->where('user_id',$user_id)
-                ->where(['bank_id'=>0,'tran_type'=>'income'])
+                ->where(['bank_id'=>0,'tran_type'=>'income','status'=>'success'])
                 ->sum('price')-Transection::whereYear('tran_date',$year)
                 ->where('user_id',$user_id)
-                ->where(['bank_id'=>0,'tran_type'=>'expense'])
+                ->where(['bank_id'=>0,'tran_type'=>'expense','status'=>'success'])
                 ->sum('price');
     
                 $bank = Transection::whereYear('tran_date',$year)
                 ->where('user_id',$user_id)
-                ->where(['bank_id'=>'bank','tran_type'=>'income'])
+                ->where(['bank_id'=>'bank','tran_type'=>'income','status'=>'success'])
                     ->sum('price')-Transection::whereYear('tran_date',$year)
                     ->where('user_id',$user_id)
-                    ->where(['bank_id'=>'bank','tran_type'=>'expense'])
+                    ->where(['bank_id'=>'bank','tran_type'=>'expense','status'=>'success'])
                     ->sum('price');
             }
         }
@@ -352,16 +403,19 @@ class TransectionController extends Controller
             $income = Transection::where('tran_type','income')->sum('price');
 
             $incomeMonth = Transection::where('tran_type','income')
+            ->where('status','success')
             ->whereMonth('tran_date',date('m'))
             ->whereYear('tran_date',date('Y'))
             ->sum('price');
 
             $incomeLastMonth = Transection::where('tran_type','income')
+            ->where('status','success')
             ->whereMonth('tran_date',date('m',strtotime('-1 month')))
             ->whereYear('tran_date',date('Y',strtotime('-1 month')))
             ->sum('price');
 
             $incomeYear = Transection::where('tran_type','income')
+            ->where('status','success')
             ->whereYear('tran_date',date('Y'))
             ->sum('price');
 
@@ -384,16 +438,19 @@ class TransectionController extends Controller
             $expense = Transection::where('tran_type','expense')->sum('price');
 
             $expenseMonth = Transection::where('tran_type','expense')
+            ->where('status','success')
             ->whereMonth('tran_date',date('m'))
             ->whereYear('tran_date',date('Y'))
             ->sum('price');
 
             $expenseLastMonth = Transection::where('tran_type','expense')
+            ->where('status','success')
             ->whereMonth('tran_date',date('m',strtotime('-1 month')))
             ->whereYear('tran_date',date('Y',strtotime('-1 month')))
             ->sum('price');
 
             $expenseYear = Transection::where('tran_type','expense')
+            ->where('status','success')
             ->whereYear('tran_date',date('Y'))
             ->sum('price');
 
@@ -414,18 +471,21 @@ class TransectionController extends Controller
 
             /// by user
 
-            $dwall = DocWork::where('user_id',$user_id)->count();
+            $dwall = DocWork::where('user_id',$user_id)->where('status','success')->count();
             $dwMonth = DocWork::whereMonth('created_at',date('m'))
+            ->where('status','success')
             ->where('user_id',$user_id)
             ->whereYear('created_at',date('Y'))
             ->count();
 
             $dwLastMonth = DocWork::whereMonth('created_at',date('m',strtotime('-1 month')))
             ->where('user_id',$user_id)
+            ->where('status','success')
             ->whereYear('created_at',date('Y',strtotime('-1 month')))
             ->count();
 
             $dwYear = DocWork::whereYear('created_at',date('Y'))
+            ->where('status','success')
             ->where('user_id',$user_id)
             ->count();
 
@@ -445,21 +505,24 @@ class TransectionController extends Controller
 
             // doc work padding ------------------------------------
 
-            $dwpadding = DocWork::where('status','padding')->where('user_id',$user_id)->count();
+            $dwpadding = DocWork::where('status','padding')->where('user_id',$user_id)->where('status','success')->count();
 
             $dwpMonth = DocWork::where('status','padding')
+            ->where('status','success')
             ->where('user_id',$user_id)
             ->whereMonth('created_at',date('m'))
             ->whereYear('created_at',date('Y'))
             ->count();
 
             $dwpLastMonth = DocWork::where('status','padding')
+            ->where('status','success')
             ->where('user_id',$user_id)
             ->whereMonth('created_at',date('m',strtotime('-1 month')))
             ->whereYear('created_at',date('Y',strtotime('-1 month')))
             ->count();
 
             $dwpYear = DocWork::where('status','padding')
+            ->where('status','success')
             ->where('user_id',$user_id)
             ->whereYear('created_at',date('Y'))
             ->count();
@@ -481,21 +544,24 @@ class TransectionController extends Controller
 
             // income -------------------------
 
-            $income = Transection::where('tran_type','income')->where('user_id',$user_id)->sum('price');
+            $income = Transection::where('tran_type','income')->where('user_id',$user_id)->where('status','success')->sum('price');
 
             $incomeMonth = Transection::where('tran_type','income')
+            ->where('status','success')
             ->where('user_id',$user_id)
             ->whereMonth('tran_date',date('m'))
             ->whereYear('tran_date',date('Y'))
             ->sum('price');
 
             $incomeLastMonth = Transection::where('tran_type','income')
+            ->where('status','success')
             ->where('user_id',$user_id)
             ->whereMonth('tran_date',date('m',strtotime('-1 month')))
             ->whereYear('tran_date',date('Y',strtotime('-1 month')))
             ->sum('price');
 
             $incomeYear = Transection::where('tran_type','income')
+            ->where('status','success')
             ->where('user_id',$user_id)
             ->whereYear('tran_date',date('Y'))
             ->sum('price');
@@ -516,21 +582,24 @@ class TransectionController extends Controller
 
             // expense -----------------
 
-            $expense = Transection::where('tran_type','expense')->where('user_id',$user_id)->sum('price');
+            $expense = Transection::where('tran_type','expense')->where('user_id',$user_id)->where('status','success')->sum('price');
 
             $expenseMonth = Transection::where('tran_type','expense')
+            ->where('status','success')
             ->where('user_id',$user_id)
             ->whereMonth('tran_date',date('m'))
             ->whereYear('tran_date',date('Y'))
             ->sum('price');
 
             $expenseLastMonth = Transection::where('tran_type','expense')
+            ->where('status','success')
             ->where('user_id',$user_id)
             ->whereMonth('tran_date',date('m',strtotime('-1 month')))
             ->whereYear('tran_date',date('Y',strtotime('-1 month')))
             ->sum('price');
 
             $expenseYear = Transection::where('tran_type','expense')
+            ->where('status','success')
             ->where('user_id',$user_id)
             ->whereYear('tran_date',date('Y'))
             ->sum('price');

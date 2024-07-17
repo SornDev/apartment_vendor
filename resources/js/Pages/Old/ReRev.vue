@@ -138,7 +138,7 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-                </div>
+                                    </div>
                                         </div>
 
                                        
@@ -156,7 +156,7 @@
 import moment from "moment";
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
-import mixins from '../mixins/ulmixins'
+import mixins from '../../mixins/ulmixins'
 export default {
     name: 'DmsReRev',
     mixins: [mixins],

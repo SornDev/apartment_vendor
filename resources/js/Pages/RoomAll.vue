@@ -1,6 +1,6 @@
 <template lang="">
     <div>
-        <h1>User Per</h1>
+        <h1>All Room</h1>
     </div>
 </template>
 <script>

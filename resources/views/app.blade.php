@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ url('assets/css/font_lao.css') }}">
     <!-- icon -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
+   
     @vite('resources/css/app.css')
 </head>
 <body>
@@ -32,7 +32,7 @@
 
 
     @vite('resources/js/app.js')
-
+   
 
 </body>
 </html>

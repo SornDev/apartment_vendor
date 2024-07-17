@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import mixins from '../mixins/ulmixins'
+import mixins from '../../mixins/ulmixins'
 export default {
     name: 'DmsPreDoc',
     mixins:[mixins],

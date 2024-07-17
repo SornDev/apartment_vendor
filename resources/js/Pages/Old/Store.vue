@@ -107,7 +107,7 @@
 </template>
 
 <script>
-import { useStore } from '../Store/auth'
+import { useStore } from '../../Store/auth'
 import axios from 'axios'
 export default {
     name: 'Minipos14Store',

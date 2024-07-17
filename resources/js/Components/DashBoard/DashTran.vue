@@ -312,17 +312,17 @@ export default {
         }
     },
     created() {
-        this.GetTran()
-        this.GetMn()
-        this.handleResize()
+        // this.GetTran()
+        // this.GetMn()
+        // this.handleResize()
     },
     watch: {
         ttype(){
-            this.GetTran()
+            // this.GetTran()
             
         },
         DonutYear(){
-            this.GetMn()
+            // this.GetMn()
         }
 
     }

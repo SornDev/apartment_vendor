@@ -68,7 +68,7 @@ import "flatpickr/dist/flatpickr.css";
 
 Chart.register(...registerables);
 
-import mixins from '../mixins/ulmixins';
+import mixins from '../../mixins/ulmixins';
 export default {
     name: 'DmsReIncExp',
     mixins: [mixins],

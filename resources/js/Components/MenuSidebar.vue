@@ -18,8 +18,8 @@
   
 </div>
 <div class="text-center">
-  <span class="app-brand-text demo menu-text fw-bold ms-2 text-center">
-  {{store.get_setting?JSON.parse(store.get_setting).company_name:'DMS'}}
+  <span class="app-brand-text demo menu-text fw-bold ms-2 text-center fs-6 p-4">
+  <!-- {{store.get_setting?JSON.parse(store.get_setting).company_name:'DMS'}} -->
 </span>
 </div>
 
@@ -41,38 +41,26 @@
   </li>
 
 
-  <li class="menu-item"  :class="$route.path=='/pre-doc'?' active':''" v-if="store.get_permissions.includes('DOC_ACC')||JSON.parse(store.get_user).user_type=='admin'" >
-    <router-link to="/pre-doc"  class="menu-link" >
+  <li class="menu-item"  :class="$route.path=='/roomall'?' active':''"  >
+    <router-link to="/roomall"  class="menu-link" >
       <i class='bx bxs-file-doc menu-icon'></i>
-      <div class="text-truncate" >ຮ່າງ-ແບບເອກະສານ</div>
+      <div class="text-truncate" >ຫ້ອງພັກ</div>
     </router-link>
     
   </li>
 
-  <li class="menu-item" :class="$route.path=='/tran-doc'?' active':''" v-if="store.get_permissions.includes('DOC_ACC')||JSON.parse(store.get_user).user_type=='admin'">
-    <router-link to="/tran-doc" class="menu-link">
-      <i class='bx bxs-book-content menu-icon'></i>
-      <div class="text-truncate " >ລາຍການເອກະສານ</div>
-    </router-link>
-  </li>
 
-  <li class="menu-item" :class="$route.path=='/rec'?' active':''" v-if="store.get_permissions.includes('REC_ACC')||JSON.parse(store.get_user).user_type=='admin'">
-    <router-link to="/rec" class="menu-link">
+
+  <li class="menu-item" :class="$route.path=='/bill'?' active':''" >
+    <router-link to="/bill" class="menu-link">
       <i class='bx bxs-receipt menu-icon'></i>
-      <div class="text-truncate " >ໃບບິນ</div>
+      <div class="text-truncate " >ໃບບິນ-ຮັບເງິນ</div>
     </router-link>
     
   </li>
 
-  <!-- <li class="menu-item" :class="$route.path=='/quo'?' active':''">
-    <router-link to="/quo" class="menu-link">
-      <i class='bx bxs-calendar-event menu-icon'></i>
-      <div class="text-truncate" >ໃບສະເໜີລາຄາ</div>
-    </router-link>
-    
-  </li> -->
 
-  <li class="menu-item" :class="$route.path=='/acc'?' active':''" v-if="store.get_permissions.includes('ACC_ACC')||JSON.parse(store.get_user).user_type=='admin'">
+  <li class="menu-item" :class="$route.path=='/acc'?' active':''" >
     <router-link to="/acc" class="menu-link">
       <i class='bx bxs-dollar-circle menu-icon'></i>
       <div class="text-truncate " >ບັນຊີ</div>
@@ -80,8 +68,10 @@
     
   </li> 
 
-  <li class="menu-item" :class="$route.path=='/cus'?' active':''" v-if="store.get_permissions.includes('CUS_ACC')||JSON.parse(store.get_user).user_type=='admin'">
-    <router-link to="/cus" class="menu-link">
+
+
+  <li class="menu-item" :class="$route.path=='/customer'?' active':''" >
+    <router-link to="/customer" class="menu-link">
       <i class='bx bxs-user-detail menu-icon'></i>
       <div class="text-truncate " >ຂໍ້ມູນລູກຄ້າ</div>
     </router-link>
@@ -89,12 +79,12 @@
   </li>
 
 
-  <li class="menu-header small text-uppercase m-0" v-if="store.get_permissions.includes('SET_ACC')||store.get_permissions.includes('DOCMG_ACC_EDIT')||store.get_permissions.includes('USER_ACC')||store.get_permissions.includes('SET_ROLES')||JSON.parse(store.get_user).user_type=='admin'">
+  <li class="menu-header small text-uppercase m-0">
       <span class="menu-header-text">ການຕັ້ງຄ່າ</span>
     </li>
 
 
-<li class="menu-item" :class="$route.path=='/setting'?' active':''" v-if="store.get_permissions.includes('SET_ACC')||JSON.parse(store.get_user).user_type=='admin'">
+<li class="menu-item" :class="$route.path=='/setting'?' active':''" >
     <router-link to="/setting" class="menu-link">
       <i class='bx bxs-cog menu-icon'></i>
       <div class="text-truncate " >ຕັ້ງຄ່າລະບົບ</div>
@@ -102,15 +92,15 @@
     
   </li>
 
-  <li class="menu-item" :class="$route.path=='/predoc-mg'?' active':''" v-if="store.get_permissions.includes('DOCMG_ACC_EDIT')||JSON.parse(store.get_user).user_type=='admin'">
-    <router-link to="/predoc-mg" class="menu-link">
+  <li class="menu-item" :class="$route.path=='/service'?' active':''" >
+    <router-link to="/service" class="menu-link">
       <i class='bx bxs-calendar-edit menu-icon'></i>
-      <div class="text-truncate " >ຈັດການ ຮ່າງ-ແບບເອກະສານ</div>
+      <div class="text-truncate " >ປະເພດບໍລິການ</div>
     </router-link>
     
   </li>
 
-  <li class="menu-item" :class="$route.path=='/user-mg'?' active':''" v-if="store.get_permissions.includes('USER_ACC')||JSON.parse(store.get_user).user_type=='admin'">
+  <li class="menu-item" :class="$route.path=='/user-mg'?' active':''" >
     <router-link to="/user-mg" class="menu-link">
       <i class='bx bxs-user-circle menu-icon'></i>
       <div class="text-truncate " >ຈັດການ ຜູ້ໃຊ້</div>
@@ -118,19 +108,19 @@
     
   </li>
 
-  <li class="menu-item" :class="$route.path=='/user-per'?' active':''" v-if="store.get_permissions.includes('SET_ROLES')||JSON.parse(store.get_user).user_type=='admin'">
+  <li class="menu-item" :class="$route.path=='/user-per'?' active':''" >
     <router-link to="/user-per" class="menu-link">
       <i class='bx bxs-user-check menu-icon'></i>
       <div class="text-truncate " >ຈັດການ ສິດຜູ້ໃຊ້</div>
     </router-link>
   </li>
 
-    <li class="menu-header small text-uppercase m-0" v-if="store.get_permissions.includes('RP_ACC_IE')||store.get_permissions.includes('RP_ACC_CAS')||JSON.parse(store.get_user).user_type=='admin'">
+    <li class="menu-header small text-uppercase m-0" >
       <span class="menu-header-text">ລາຍງານ</span>
     </li>
 
 
-<li class="menu-item" :class="$route.path=='/inc-exp'?' active':''" v-if="store.get_permissions.includes('RP_ACC_IE')||JSON.parse(store.get_user).user_type=='admin'">
+<li class="menu-item" :class="$route.path=='/inc-exp'?' active':''" >
     <router-link to="/inc-exp" class="menu-link">
       <i class='bx bxs-notepad menu-icon'></i>
       <div class="text-truncate" >ລາຍຮັບ-ລາຍຈ່າຍ</div>
@@ -138,7 +128,7 @@
     
   </li>
 
-  <li class="menu-item" :class="$route.path=='/rev'?' active':''" v-if="store.get_permissions.includes('RP_ACC_CAS')||JSON.parse(store.get_user).user_type=='admin'">
+  <li class="menu-item" :class="$route.path=='/rev'?' active':''" >
     <router-link to="/rev" class="menu-link">
       <i class='bx bxs-wallet-alt menu-icon'></i>
       <div class="text-truncate" >ຕິດຕາມເງິນສົດ</div>
@@ -186,6 +176,7 @@ export default {
         return {
             menu_status:'big',
             url: window.location.origin,
+            expened1: "",
         };
     },
     computed:{
@@ -197,6 +188,16 @@ export default {
     },
 
     methods: {
+      sbm1() {
+
+      // check if expened1 have open
+      if(this.expened1.includes('open')){
+        this.expened1 = this.expened1.replace('open', '')
+      }else{
+        this.expened1 += " open";
+      }
+  
+    },
         setmenu(){
           console.log(this.menu_status);
             if(this.menu_status=='big'){
@@ -222,6 +223,14 @@ export default {
             }
         }
     },
+    watch: {
+    $route() {
+      if ( this.$route.path == "/purchasing" || this.$route.path == "/check_import" ) {
+        this.expened1 += " open active";
+      }
+     
+    },
+  },
 };
 </script>
 

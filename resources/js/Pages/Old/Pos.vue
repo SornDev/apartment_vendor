@@ -160,7 +160,7 @@
 </template>
 
 <script>
-import { useStore } from '../Store/auth'
+import { useStore } from '../../Store/auth'
 export default {
     setup(){
         const store = useStore();

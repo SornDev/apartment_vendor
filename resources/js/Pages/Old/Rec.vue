@@ -659,8 +659,8 @@
 </template>
 
 <script>
-import mixins from "../mixins/ulmixins";
-import { useStore } from '../Store/auth';
+import mixins from "../../mixins/ulmixins";
+import { useStore } from '../../Store/auth';
 export default {
   name: "DmsRec",
   setup() {

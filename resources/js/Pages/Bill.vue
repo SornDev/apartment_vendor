@@ -1,6 +1,6 @@
 <template lang="">
     <div>
-        <h1>User Per</h1>
+        <h1>Bill</h1>
     </div>
 </template>
 <script>

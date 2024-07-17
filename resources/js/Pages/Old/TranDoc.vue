@@ -310,8 +310,8 @@
 
 <script>
 import moment from 'moment';
-import mixins from '../mixins/ulmixins'
-import {useStore} from '../Store/auth'
+import mixins from '../../mixins/ulmixins'
+import {useStore} from '../../Store/auth'
 export default {
   setup() {
     const store = useStore()

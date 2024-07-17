@@ -182,8 +182,8 @@ export default {
         }
     },
      created() {
-        this.getAllData()
-        this.handleResize()
+        // this.getAllData()
+        // this.handleResize()
     },
 }
 </script>

@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import DocCat from '../Components/PreDoc/DocCat.vue';
-import Doc from '../Components/PreDoc/Docu.vue';
+import DocCat from '../../Components/PreDoc/DocCat.vue';
+import Doc from '../../Components/PreDoc/Docu.vue';
 
 export default {
    

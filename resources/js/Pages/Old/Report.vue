@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { useStore } from '../Store/auth'
+import { useStore } from '../../Store/auth'
 export default {
     name: 'Minipos14Report',
     setup(){

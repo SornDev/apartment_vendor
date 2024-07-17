@@ -49,14 +49,14 @@
         </div>
    
        <div class=" d-flex justify-content-between mt-4">
-       <div style="font-size: 12px;">
+       <div style=" width: 170px; font-size:11px;">
                 @if($setting->company_logo)
                 @php($img = $setting->company_logo)
-                
-                <img src="{{asset('assets/img/'.$img)}}" style="width: 80px;"><br>
-              
+                <div class="text-center">
+                <img src="{{asset('assets/img/'.$img)}}" style="width: 65px;"><br>
+                </div>
                 @endif
-                <span class="fs-6"> <strong> {{$setting->company_name}}</strong> </span><br>
+                <span style=" font-size:11px" > <strong> {{$setting->company_name}}</strong> </span><br>
                 
                 ອີເມວລ໌: {{$setting->company_email}} <br>
                 ເບີໂທ: {{$setting->company_tel}}<br>
